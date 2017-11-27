@@ -16,4 +16,12 @@ public interface PositionnableService {
     public Position getPosition();
 
     public void setPosition(Position position);
+
+    public double getHauteur();
+
+    public void setHauteur(int hauteur);
+
+    public double getLargeur();
+
+    public void setLargeur(int largeur);
 }

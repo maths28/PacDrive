@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import fr.insta.cl.pacinc.pacdrive.data.model.Movable;
+import fr.insta.cl.pacinc.pacdrive.data.model.Positionnable;
 import fr.insta.cl.pacinc.pacdrive.specifications.*;
 import fr.insta.cl.pacinc.pacdrive.tools.*;
 
@@ -64,7 +65,7 @@ public class Engine implements EngineService, RequireDataService{
         for (HostileService h:data.getHostiles()){
           if (true) move(h);
 
-          if (collisionHeroesHostiles(h)){
+          if (collisionBetweenPositionnables(data.getJoueur(), h)){
             data.setSoundEffect(Sound.SOUND.HeroesGotHit);
             score++;
           } else {
@@ -134,22 +135,22 @@ public class Engine implements EngineService, RequireDataService{
     data.addHostile(new Position(x,y), new Vitesse(0, 0), new Acceleration(-1, 0), "");
   }
 
-  private boolean collisionHeroesHostiles(HostileService h){
+/*  private boolean collisionHeroesHostiles(HostileService h){
     return (
       (data.getHeroesPosition().x-h.getPosition().x)*(data.getHeroesPosition().x-h.getPosition().x)+
       (data.getHeroesPosition().y-h.getPosition().y)*(data.getHeroesPosition().y-h.getPosition().y) <
       0.25*(data.getHeroesWidth()+data.getPhantomWidth())*(data.getHeroesWidth()+data.getPhantomWidth())
     );
-  }
+  }*/
   
-  private boolean collisionHeroesHostiles(){
-    for (HostileService h:data.getHostiles()){
-      if (collisionHeroesHostiles(h)){
-        return true;
-      }
-    }
-    return false;
-  }
+//  private boolean collisionHeroesHostiles(){
+//    for (HostileService h:data.getHostiles()){
+//      if (collisionHeroesHostiles(h)){
+//        return true;
+//      }
+//    }
+//    return false;
+//  }
 
   public void move(MovableService movableService){
     double aX = movableService.getAccelerationX();
@@ -165,4 +166,34 @@ public class Engine implements EngineService, RequireDataService{
     movableService.setPosition(new Position(pX, pY));
 
   }
+
+
+  private boolean collisionBetweenPositionnables(PositionnableService object1, PositionnableService object2){
+
+    Position p1 = object1.getPosition();
+    Position p2 = object2.getPosition();
+
+    double p1Height = object1.getHauteur();
+    double p1Width = object1.getLargeur();
+
+    double p2Height  = object2.getHauteur();
+    double p2Width  = object2.getLargeur();
+
+    if( (p1.x > p2.x && p1.x < p2.x+p2Width && p1.y > p2.y && p1.y < p2.y+p2Height) ) return true;
+    if((p1.x + p1Width > p2.x && p1.x + p1Width < p2.x+p2Width && p1.y > p2.y && p1.y < p2.y+p2Height)  )return true;
+    if((p1.x + p1Width> p2.x && p1.x + p1Width < p2.x+p2Width && p1.y + p1Height > p2.y && p1.y  + p1Height < p2.y+p2Height ) )return true;
+    if((p1.x > p2.x && p1.x < p2.x+p2Width && p1.y + p1Height > p2.y && p1.y  + p1Height < p2.y+p2Height) )return true;
+
+    if( (p2.x > p1.x && p2.x < p1.x+p1Width && p2.y > p1.y && p2.y < p1.y+p1Height) )return true;
+    if( (p2.x + p2Width > p1.x && p2.x + p2Width < p1.x+p1Width && p2.y > p1.y && p2.y < p1.y+p1Height))return true;
+    if( (p2.x + p2Width> p1.x && p2.x + p2Width < p1.x+p1Width && p2.y + p2Height > p1.y && p2.y  + p2Height < p1.y+p1Height))return true;
+    if( (p2.x > p1.x && p2.x < p1.x+p1Width && p2.y + p2Height > p1.y && p2.y  + p2Height < p1.y+p1Height))return true;
+
+
+
+
+    return false ;
+  }
+
+
 }

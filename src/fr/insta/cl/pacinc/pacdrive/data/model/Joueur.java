@@ -1,5 +1,6 @@
 package fr.insta.cl.pacinc.pacdrive.data.model;
 
+import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
 public class Joueur extends Movable {
@@ -11,6 +12,8 @@ public class Joueur extends Movable {
 	
 	public Joueur(Position p) {
 		super(p);
+		hauteur = HardCodedParameters.heroesHeight;
+		largeur = HardCodedParameters.heroesWidth;
 	}
 
 	//getters and setters

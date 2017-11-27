@@ -6,12 +6,14 @@ import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
 public abstract class Positionnable implements PositionnableService{
 
+	public Position position = new Position(0,0) ;
+	public double hauteur, largeur;
+
 	public Positionnable(Position p){
 		this.position = p;
 	}
-	
-	public Position position = new Position(0,0) ;
-	
+
+
 	//getters and setters
 	public double getPositionX() {
 		return position.x;
@@ -24,6 +26,22 @@ public abstract class Positionnable implements PositionnableService{
 	}
 	public void setPositionY(double y) {
 		this.position.y = y;
+	}
+
+	public double getHauteur() {
+		return hauteur;
+	}
+
+	public void setHauteur(int hauteur) {
+		this.hauteur = hauteur;
+	}
+
+	public double getLargeur() {
+		return largeur;
+	}
+
+	public void setLargeur(int largeur) {
+		this.largeur = largeur;
 	}
 
 	public Position getPosition() {
@@ -39,6 +57,7 @@ public abstract class Positionnable implements PositionnableService{
 		this.position.x = x;
 		this.position.y = y;
 	}
-	
+
+
 
 }

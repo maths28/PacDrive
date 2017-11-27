@@ -102,8 +102,8 @@ public class Viewer implements ViewerService, RequireReadService{
     map.setTranslateX(xModifier);
     map.setTranslateY(yModifier);
     
-    Text greets = new Text(-0.1*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
-                           -0.1*shrink*defaultMainWidth+shrink*defaultMainHeight,
+    Text greets = new Text(0.3*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
+            -0.05*shrink*defaultMainWidth+shrink*defaultMainHeight,
                            "Round 1");
     greets.setFont(new Font(.05*shrink*defaultMainHeight));
     
@@ -196,6 +196,10 @@ public class Viewer implements ViewerService, RequireReadService{
       phantomAvatar.setTranslateY(shrink*m.getPosition().y+shrink*yModifier-radius);
       panel.getChildren().add(phantomAvatar);
     }
+
+    Text textLife = new Text(100*shrink, -0.05*shrink*defaultMainWidth+shrink*defaultMainHeight, "Vie : " + data.getJoueur().getHealth());
+    textLife.setFont(new Font(.05*shrink*defaultMainHeight));
+    panel.getChildren().add(textLife);
 
     return panel;
   }

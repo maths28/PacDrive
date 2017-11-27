@@ -23,6 +23,7 @@ public class Data implements DataService {
 	private List<PieceService> pieces ;
 	private Joueur joueur ;
 	private Terrain terrain ;
+	private int life ;
 	
 	private Sound.SOUND sound;
 	
