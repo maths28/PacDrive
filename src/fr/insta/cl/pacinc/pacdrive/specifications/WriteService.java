@@ -7,15 +7,20 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.insta.cl.pacinc.pacdrive.data.model.Joueur;
+import fr.insta.cl.pacinc.pacdrive.tools.Acceleration;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Sound;
+import fr.insta.cl.pacinc.pacdrive.tools.Vitesse;
 
 public interface WriteService {
   public void setHeroesPosition(Position p);
   public void setStepNumber(int n);
-  public void addPhantom(Position p);
-  public void setPhantoms(ArrayList<PhantomService> phantoms);
+  public void addHostile(Position p, Vitesse v, Acceleration a, String comportement);
+  public void setHostiles(List<HostileService> hostiles);
   public void setSoundEffect(Sound.SOUND s);
   public void addScore(int score);
+  public void setJoueur(Joueur joueur);
 }

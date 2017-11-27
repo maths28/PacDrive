@@ -1,10 +1,11 @@
 package fr.insta.cl.pacinc.pacdrive.data.model;
 
+import fr.insta.cl.pacinc.pacdrive.specifications.MovableService;
 import fr.insta.cl.pacinc.pacdrive.tools.Acceleration;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Vitesse;
 
-public abstract class Movable extends Positionnable {
+public abstract class Movable extends Positionnable implements MovableService {
 	
 		//Vitesse
 	
@@ -54,6 +55,24 @@ public abstract class Movable extends Positionnable {
 		this.acceleration.x = x;
 		this.acceleration.y = y;
 	}
-	
 
+	@Override
+	public Vitesse getVitesse() {
+		return vitesse;
+	}
+
+	@Override
+	public Acceleration getAcceleration() {
+		return acceleration;
+	}
+
+	@Override
+	public void setVitesse(Vitesse v) {
+		this.vitesse = v;
+	}
+
+	@Override
+	public void setAcceleration(Acceleration a) {
+		this.acceleration = a;
+	}
 }

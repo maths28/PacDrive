@@ -3,7 +3,6 @@ package fr.insta.cl.pacinc.pacdrive.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.insta.cl.pacinc.pacdrive.data.ia.MoveLeftPhantom;
 import fr.insta.cl.pacinc.pacdrive.data.model.Batiment;
 import fr.insta.cl.pacinc.pacdrive.data.model.Hostile;
 import fr.insta.cl.pacinc.pacdrive.data.model.Joueur;
@@ -12,23 +11,19 @@ import fr.insta.cl.pacinc.pacdrive.data.model.Mine;
 import fr.insta.cl.pacinc.pacdrive.data.model.Piece;
 import fr.insta.cl.pacinc.pacdrive.data.model.Terrain;
 import fr.insta.cl.pacinc.pacdrive.specifications.DataService;
-import fr.insta.cl.pacinc.pacdrive.specifications.PhantomService;
-import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
-import fr.insta.cl.pacinc.pacdrive.tools.Position;
-import fr.insta.cl.pacinc.pacdrive.tools.Sound;
-import fr.insta.cl.pacinc.pacdrive.tools.Sound.SOUND;
+import fr.insta.cl.pacinc.pacdrive.specifications.HostileService;
+import fr.insta.cl.pacinc.pacdrive.tools.*;
 
 public class Data implements DataService {
 	
 	//models
 	private List<Batiment> batiments ;
-	private List<Hostile> hostiles ;
+	private List<HostileService> hostiles ;
 	private List<Kit> kits;
 	private List<Mine> mines ;
 	private List<Piece> pieces ;
 	private Joueur joueur ;
 	private Terrain terrain ;
-		  private ArrayList<PhantomService> phantoms;
 	
 	private Sound.SOUND sound;
 	
@@ -39,7 +34,7 @@ public class Data implements DataService {
 	public void init() {
 		//creation
 		batiments = new ArrayList<Batiment>();
-		hostiles = new ArrayList<Hostile>();
+		hostiles = new ArrayList<HostileService>();
 		kits = new ArrayList<Kit>();
 		mines = new ArrayList<Mine>();
 		pieces = new ArrayList<Piece>() ;
@@ -51,7 +46,6 @@ public class Data implements DataService {
 //		joueur.setHealth(health);
 //		joueur.setMunition(munition);
 
-		phantoms = new ArrayList<>();
 	}
 
 	
@@ -64,12 +58,16 @@ public class Data implements DataService {
 		this.batiments = batiments;
 	}
 
-	public List<Hostile> getHostiles() {
+	public List<HostileService> getHostiles() {
 		return hostiles;
 	}
 
-	public void setHostiles(List<Hostile> hostiles) {
+	public void setHostiles(List<HostileService> hostiles) {
 		this.hostiles = hostiles;
+	}
+
+	public void addHostile(Position p, Vitesse v, Acceleration a, String comportement){
+		this.hostiles.add(new Hostile(p, v, a, comportement));
 	}
 
 	public List<Kit> getKits() {
@@ -161,10 +159,6 @@ public class Data implements DataService {
 		// TODO Auto-generated method stub
 		return HardCodedParameters.phantomWidth;
 	}
-
-
-	@Override
-	  public ArrayList<PhantomService> getPhantoms(){ return phantoms; }
 	  
 	  @Override
 	  public Sound.SOUND getSoundEffect() { return sound; }
@@ -172,12 +166,6 @@ public class Data implements DataService {
 	   
 	  @Override
 	  public void addScore(int score){ this.score+=score; }
-
-	  @Override
-	  public void addPhantom(Position p) { phantoms.add(new MoveLeftPhantom(p)); }
-	  
-	  @Override
-	  public void setPhantoms(ArrayList<PhantomService> phantoms) { this.phantoms=phantoms; }
 	  
 	  @Override
 	  public void setSoundEffect(Sound.SOUND s) { sound=s; }
@@ -188,5 +176,7 @@ public class Data implements DataService {
 		this.joueur.position = p ;
 		
 	}
+
+
 
 }

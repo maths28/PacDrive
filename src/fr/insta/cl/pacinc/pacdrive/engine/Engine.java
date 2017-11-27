@@ -9,14 +9,9 @@ package fr.insta.cl.pacinc.pacdrive.engine;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fr.insta.cl.pacinc.pacdrive.specifications.DataService;
-import fr.insta.cl.pacinc.pacdrive.specifications.EngineService;
-import fr.insta.cl.pacinc.pacdrive.specifications.PhantomService;
-import fr.insta.cl.pacinc.pacdrive.specifications.RequireDataService;
-import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
-import fr.insta.cl.pacinc.pacdrive.tools.Position;
-import fr.insta.cl.pacinc.pacdrive.tools.Sound;
-import fr.insta.cl.pacinc.pacdrive.tools.User;
+import fr.insta.cl.pacinc.pacdrive.data.model.Movable;
+import fr.insta.cl.pacinc.pacdrive.specifications.*;
+import fr.insta.cl.pacinc.pacdrive.tools.*;
 
 import java.util.Random;
 import java.util.ArrayList;
@@ -30,7 +25,6 @@ public class Engine implements EngineService, RequireDataService{
   private User.COMMAND command;
   private Random gen;
   private boolean moveLeft,moveRight,moveUp,moveDown;
-  private double heroesVX,heroesVY;
 
   public Engine(){}
 
@@ -48,8 +42,6 @@ public class Engine implements EngineService, RequireDataService{
     moveRight = false;
     moveUp = false;
     moveDown = false;
-    heroesVX = 0;
-    heroesVY = 0;
   }
 
   @Override
@@ -58,34 +50,31 @@ public class Engine implements EngineService, RequireDataService{
       public void run() {
         //System.out.println("Game step #"+data.getStepNumber()+": checked.");
         
-        if (gen.nextInt(10)<3) spawnPhantom();
+        if (gen.nextInt(10)<3) spawnHostiles();
 
         updateSpeedHeroes();
         updateCommandHeroes();
         updatePositionHeroes();
 
-        ArrayList<PhantomService> phantoms = new ArrayList<PhantomService>();
+        ArrayList<HostileService> hostiles = new ArrayList<HostileService>();
         int score=0;
 
         data.setSoundEffect(Sound.SOUND.None);
 
-        for (PhantomService p:data.getPhantoms()){
-          if (p.getAction()==PhantomService.MOVE.LEFT) moveLeft(p);
-          if (p.getAction()==PhantomService.MOVE.RIGHT) moveRight(p);
-          if (p.getAction()==PhantomService.MOVE.UP) moveUp(p);
-          if (p.getAction()==PhantomService.MOVE.DOWN) moveDown(p);
+        for (HostileService h:data.getHostiles()){
+          if (true) move(h);
 
-          if (collisionHeroesPhantom(p)){
+          if (collisionHeroesHostiles(h)){
             data.setSoundEffect(Sound.SOUND.HeroesGotHit);
             score++;
           } else {
-            if (p.getPosition().x>0) phantoms.add(p);
+            if (h.getPosition().x>0) hostiles.add(h);
           }
         }
 
         data.addScore(score);
 
-        data.setPhantoms(phantoms);
+        data.setHostiles(hostiles);
 
         data.setStepNumber(data.getStepNumber()+1);
       }
@@ -114,62 +103,66 @@ public class Engine implements EngineService, RequireDataService{
   }
 
   private void updateSpeedHeroes(){
-    heroesVX*=friction;
-    heroesVY*=friction;
+    data.getJoueur().vitesse.x*=friction;
+    data.getJoueur().vitesse.y*=friction;
   }
 
   private void updateCommandHeroes(){
-    if (moveLeft) heroesVX-=heroesStep;
-    if (moveRight) heroesVX+=heroesStep;
-    if (moveUp) heroesVY-=heroesStep;
-    if (moveDown) heroesVY+=heroesStep;
+    if (moveLeft) data.getJoueur().vitesse.x-=heroesStep;
+    if (moveRight) data.getJoueur().vitesse.x+=heroesStep;
+    if (moveUp) data.getJoueur().vitesse.y-=heroesStep;
+    if (moveDown) data.getJoueur().vitesse.y+=heroesStep;
   }
   
   private void updatePositionHeroes(){
-    data.setHeroesPosition(new Position(data.getHeroesPosition().x+heroesVX,data.getHeroesPosition().y+heroesVY));
+    data.setHeroesPosition(new Position(data.getHeroesPosition().x+data.getJoueur().vitesse.x,data.getHeroesPosition().y+data.getJoueur().vitesse.y));
     //if (data.getHeroesPosition().x<0) data.setHeroesPosition(new Position(0,data.getHeroesPosition().y));
     //etc...
   }
 
-  private void spawnPhantom(){
+  private void spawnHostiles(){
     int x=(int)(HardCodedParameters.defaultWidth*.9);
     int y=0;
     boolean cont=true;
     while (cont) {
       y=(int)(gen.nextInt((int)(HardCodedParameters.defaultHeight*.6))+HardCodedParameters.defaultHeight*.1);
       cont=false;
-      for (PhantomService p:data.getPhantoms()){
-        if (p.getPosition().equals(new Position(x,y))) cont=true;
+      for (HostileService h:data.getHostiles()){
+        if (h.getPosition().equals(new Position(x,y))) cont=true;
       }
     }
-    data.addPhantom(new Position(x,y));
+    data.addHostile(new Position(x,y), new Vitesse(0, 0), new Acceleration(-1, 0), "");
   }
 
-  private void moveLeft(PhantomService p){
-    p.setPosition(new Position(p.getPosition().x-phantomStep,p.getPosition().y));
-  }
-
-  private void moveRight(PhantomService p){
-    p.setPosition(new Position(p.getPosition().x+phantomStep,p.getPosition().y));
-  }
-
-  private void moveUp(PhantomService p){
-    p.setPosition(new Position(p.getPosition().x,p.getPosition().y-phantomStep));
-  }
-
-  private void moveDown(PhantomService p){
-    p.setPosition(new Position(p.getPosition().x,p.getPosition().y+phantomStep));
-  }
-
-  private boolean collisionHeroesPhantom(PhantomService p){
+  private boolean collisionHeroesHostiles(HostileService h){
     return (
-      (data.getHeroesPosition().x-p.getPosition().x)*(data.getHeroesPosition().x-p.getPosition().x)+
-      (data.getHeroesPosition().y-p.getPosition().y)*(data.getHeroesPosition().y-p.getPosition().y) <
+      (data.getHeroesPosition().x-h.getPosition().x)*(data.getHeroesPosition().x-h.getPosition().x)+
+      (data.getHeroesPosition().y-h.getPosition().y)*(data.getHeroesPosition().y-h.getPosition().y) <
       0.25*(data.getHeroesWidth()+data.getPhantomWidth())*(data.getHeroesWidth()+data.getPhantomWidth())
     );
   }
   
-  private boolean collisionHeroesPhantoms(){
-    for (PhantomService p:data.getPhantoms()) if (collisionHeroesPhantom(p)) return true; return false;
+  private boolean collisionHeroesHostiles(){
+    for (HostileService h:data.getHostiles()){
+      if (collisionHeroesHostiles(h)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void move(MovableService movableService){
+    double aX = movableService.getAccelerationX();
+    double aY = movableService.getAccelerationY();
+
+    double vX = movableService.getVitesseX() + aX;
+    double vY = movableService.getVitesseY() + aY;
+
+    double pX = movableService.getPositionX() + vX;
+    double pY = movableService.getPositionY() + vY;
+
+    movableService.setVitesse(new Vitesse(vX, vY));
+    movableService.setPosition(new Position(pX, pY));
+
   }
 }

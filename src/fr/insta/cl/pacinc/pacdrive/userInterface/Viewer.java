@@ -6,6 +6,7 @@
  * ******************************************************/
 package fr.insta.cl.pacinc.pacdrive.userInterface;
 
+import fr.insta.cl.pacinc.pacdrive.specifications.HostileService;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.effect.Lighting;
@@ -19,8 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.Rectangle2D;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import fr.insta.cl.pacinc.pacdrive.specifications.PhantomService;
 import fr.insta.cl.pacinc.pacdrive.specifications.ReadService;
 import fr.insta.cl.pacinc.pacdrive.specifications.RequireReadService;
 import fr.insta.cl.pacinc.pacdrive.specifications.ViewerService;
@@ -134,16 +135,16 @@ public class Viewer implements ViewerService, RequireReadService{
     Group panel = new Group();
     panel.getChildren().addAll(map,greets,score,heroesAvatar);
 
-    ArrayList<PhantomService> phantoms = data.getPhantoms();
-    PhantomService p;
+    List<HostileService> hostiles = data.getHostiles();
+    HostileService h;
 
-    for (int i=0; i<phantoms.size();i++){
-      p=phantoms.get(i);
+    for (int i=0; i<hostiles.size();i++){
+      h=hostiles.get(i);
       double radius=.5*Math.min(shrink*data.getPhantomWidth(),shrink*data.getPhantomHeight());
       Circle phantomAvatar = new Circle(radius,Color.rgb(255,156,156));
       phantomAvatar.setEffect(new Lighting());
-      phantomAvatar.setTranslateX(shrink*p.getPosition().x+shrink*xModifier-radius);
-      phantomAvatar.setTranslateY(shrink*p.getPosition().y+shrink*yModifier-radius);
+      phantomAvatar.setTranslateX(shrink*h.getPosition().x+shrink*xModifier-radius);
+      phantomAvatar.setTranslateY(shrink*h.getPosition().y+shrink*yModifier-radius);
       panel.getChildren().add(phantomAvatar);
     }
 

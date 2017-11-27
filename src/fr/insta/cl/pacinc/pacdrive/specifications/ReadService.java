@@ -8,18 +8,30 @@ package fr.insta.cl.pacinc.pacdrive.specifications;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.insta.cl.pacinc.pacdrive.data.model.Joueur;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Sound;
 
 public interface ReadService {
   public Position getHeroesPosition();
+
   public double getHeroesWidth();
+
   public double getHeroesHeight();
+
   public double getPhantomWidth();
+
   public double getPhantomHeight();
+
   public int getStepNumber();
+
   public int getScore();
-  public ArrayList<PhantomService> getPhantoms();
+
+  public List<HostileService> getHostiles();
+
   public Sound.SOUND getSoundEffect();
+
+  public Joueur getJoueur();
 }

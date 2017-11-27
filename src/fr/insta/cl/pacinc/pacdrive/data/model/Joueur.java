@@ -42,4 +42,6 @@ public class Joueur extends Movable {
 		this.munition = munition;
 	}
 
+
+
 }
