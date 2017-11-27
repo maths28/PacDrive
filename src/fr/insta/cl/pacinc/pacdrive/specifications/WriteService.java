@@ -9,7 +9,7 @@ package fr.insta.cl.pacinc.pacdrive.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.insta.cl.pacinc.pacdrive.data.model.Joueur;
+import fr.insta.cl.pacinc.pacdrive.data.model.*;
 import fr.insta.cl.pacinc.pacdrive.tools.Acceleration;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Sound;
@@ -23,4 +23,12 @@ public interface WriteService {
   public void setSoundEffect(Sound.SOUND s);
   public void addScore(int score);
   public void setJoueur(Joueur joueur);
+
+  public void setKits(List<KitService> kits);
+
+  public void setMines(List<MineService> mines);
+
+  public void setPieces(List<PieceService> pieces);
+
+  public void setBatiments(List<BatimentService> batiments);
 }

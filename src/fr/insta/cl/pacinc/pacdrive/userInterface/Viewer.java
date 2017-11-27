@@ -6,7 +6,7 @@
  * ******************************************************/
 package fr.insta.cl.pacinc.pacdrive.userInterface;
 
-import fr.insta.cl.pacinc.pacdrive.specifications.HostileService;
+import fr.insta.cl.pacinc.pacdrive.specifications.*;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.effect.Lighting;
@@ -22,9 +22,6 @@ import javafx.geometry.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.insta.cl.pacinc.pacdrive.specifications.ReadService;
-import fr.insta.cl.pacinc.pacdrive.specifications.RequireReadService;
-import fr.insta.cl.pacinc.pacdrive.specifications.ViewerService;
 import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
 
 public class Viewer implements ViewerService, RequireReadService{
@@ -145,6 +142,58 @@ public class Viewer implements ViewerService, RequireReadService{
       phantomAvatar.setEffect(new Lighting());
       phantomAvatar.setTranslateX(shrink*h.getPosition().x+shrink*xModifier-radius);
       phantomAvatar.setTranslateY(shrink*h.getPosition().y+shrink*yModifier-radius);
+      panel.getChildren().add(phantomAvatar);
+    }
+
+    List<BatimentService> batiments = data.getBatiments();
+    BatimentService b;
+
+    for (int i=0; i<batiments.size();i++){
+      b=batiments.get(i);
+      double radius=.5*Math.min(shrink*data.getPhantomWidth(),shrink*data.getPhantomHeight());
+      Circle phantomAvatar = new Circle(radius,Color.MAROON);
+      phantomAvatar.setEffect(new Lighting());
+      phantomAvatar.setTranslateX(shrink*b.getPosition().x+shrink*xModifier-radius);
+      phantomAvatar.setTranslateY(shrink*b.getPosition().y+shrink*yModifier-radius);
+      panel.getChildren().add(phantomAvatar);
+    }
+
+    List<PieceService> pieces = data.getPieces();
+    PieceService p;
+
+    for (int i=0; i<pieces.size();i++){
+      p=pieces.get(i);
+      double radius=.5*Math.min(shrink*data.getPhantomWidth(),shrink*data.getPhantomHeight());
+      Circle phantomAvatar = new Circle(radius,Color.YELLOW);
+      phantomAvatar.setEffect(new Lighting());
+      phantomAvatar.setTranslateX(shrink*p.getPosition().x+shrink*xModifier-radius);
+      phantomAvatar.setTranslateY(shrink*p.getPosition().y+shrink*yModifier-radius);
+      panel.getChildren().add(phantomAvatar);
+    }
+
+    List<KitService> kits = data.getKits();
+    KitService k;
+
+    for (int i=0; i<kits.size();i++){
+      k=kits.get(i);
+      double radius=.5*Math.min(shrink*data.getPhantomWidth(),shrink*data.getPhantomHeight());
+      Circle phantomAvatar = new Circle(radius,Color.GREEN);
+      phantomAvatar.setEffect(new Lighting());
+      phantomAvatar.setTranslateX(shrink*k.getPosition().x+shrink*xModifier-radius);
+      phantomAvatar.setTranslateY(shrink*k.getPosition().y+shrink*yModifier-radius);
+      panel.getChildren().add(phantomAvatar);
+    }
+
+    List<MineService> mines = data.getMines();
+    MineService m;
+
+    for (int i=0; i<mines.size();i++){
+      m=mines.get(i);
+      double radius=.5*Math.min(shrink*data.getPhantomWidth(),shrink*data.getPhantomHeight());
+      Circle phantomAvatar = new Circle(radius,Color.TEAL);
+      phantomAvatar.setEffect(new Lighting());
+      phantomAvatar.setTranslateX(shrink*m.getPosition().x+shrink*xModifier-radius);
+      phantomAvatar.setTranslateY(shrink*m.getPosition().y+shrink*yModifier-radius);
       panel.getChildren().add(phantomAvatar);
     }
 

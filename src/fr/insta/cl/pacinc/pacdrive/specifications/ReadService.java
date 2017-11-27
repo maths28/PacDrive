@@ -10,7 +10,7 @@ package fr.insta.cl.pacinc.pacdrive.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.insta.cl.pacinc.pacdrive.data.model.Joueur;
+import fr.insta.cl.pacinc.pacdrive.data.model.*;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Sound;
 
@@ -34,4 +34,12 @@ public interface ReadService {
   public Sound.SOUND getSoundEffect();
 
   public Joueur getJoueur();
+
+  public List<KitService> getKits();
+
+  public List<MineService> getMines();
+
+  public List<PieceService> getPieces();
+
+  public List<BatimentService> getBatiments();
 }

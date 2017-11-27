@@ -1,5 +1,7 @@
 package fr.insta.cl.pacinc.pacdrive.data.model;
 
+import fr.insta.cl.pacinc.pacdrive.tools.Position;
+
 public class Joueur extends Movable {
 	
 	private int health ;
@@ -7,22 +9,8 @@ public class Joueur extends Movable {
 
 	private int munition ;
 	
-	public Joueur() {
-		super();
-	}
-	
-	public Joueur(int health, int munition) {
-		super();
-		this.health = health;
-		this.munition = munition;
-	}
-	
-	public Joueur(int health, int munition, int x, int y) {
-		super();
-		this.health = health;
-		this.munition = munition;
-		this.position.x = x;
-		this.position.y = y;
+	public Joueur(Position p) {
+		super(p);
 	}
 
 	//getters and setters

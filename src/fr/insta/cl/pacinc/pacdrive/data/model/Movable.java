@@ -6,8 +6,11 @@ import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Vitesse;
 
 public abstract class Movable extends Positionnable implements MovableService {
-	
-		//Vitesse
+	public Movable(Position p) {
+		super(p);
+	}
+
+	//Vitesse
 	
 	public Vitesse vitesse = new Vitesse(0,0) ;
 	

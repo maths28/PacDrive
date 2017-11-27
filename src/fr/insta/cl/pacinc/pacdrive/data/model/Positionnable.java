@@ -5,6 +5,10 @@ import fr.insta.cl.pacinc.pacdrive.specifications.PositionnableService;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
 public abstract class Positionnable implements PositionnableService{
+
+	public Positionnable(Position p){
+		this.position = p;
+	}
 	
 	public Position position = new Position(0,0) ;
 	

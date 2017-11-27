@@ -10,18 +10,17 @@ import fr.insta.cl.pacinc.pacdrive.data.model.Kit;
 import fr.insta.cl.pacinc.pacdrive.data.model.Mine;
 import fr.insta.cl.pacinc.pacdrive.data.model.Piece;
 import fr.insta.cl.pacinc.pacdrive.data.model.Terrain;
-import fr.insta.cl.pacinc.pacdrive.specifications.DataService;
-import fr.insta.cl.pacinc.pacdrive.specifications.HostileService;
+import fr.insta.cl.pacinc.pacdrive.specifications.*;
 import fr.insta.cl.pacinc.pacdrive.tools.*;
 
 public class Data implements DataService {
 	
 	//models
-	private List<Batiment> batiments ;
+	private List<BatimentService> batiments ;
 	private List<HostileService> hostiles ;
-	private List<Kit> kits;
-	private List<Mine> mines ;
-	private List<Piece> pieces ;
+	private List<KitService> kits;
+	private List<MineService> mines ;
+	private List<PieceService> pieces ;
 	private Joueur joueur ;
 	private Terrain terrain ;
 	
@@ -33,16 +32,18 @@ public class Data implements DataService {
 	
 	public void init() {
 		//creation
-		batiments = new ArrayList<Batiment>();
+		batiments = new ArrayList<BatimentService>();
 		hostiles = new ArrayList<HostileService>();
-		kits = new ArrayList<Kit>();
-		mines = new ArrayList<Mine>();
-		pieces = new ArrayList<Piece>() ;
-		joueur = new Joueur();
+		kits = new ArrayList<KitService>();
+		mines = new ArrayList<MineService>();
+		pieces = new ArrayList<PieceService>() ;
+		joueur = new Joueur(new Position(HardCodedParameters.heroesStartX, HardCodedParameters.heroesStartY));
 		terrain = new Terrain() ;
-		
-		//joueur
-		joueur.setPosition(HardCodedParameters.heroesStartX, HardCodedParameters.heroesStartY);
+
+		kits.add(new Kit(new Position(12, 58)));
+		mines.add(new Mine(new Position(37, 125)));
+		pieces.add(new Piece(new Position(127, 10)));
+		batiments.add(new Batiment(new Position(210, 68)));
 //		joueur.setHealth(health);
 //		joueur.setMunition(munition);
 
@@ -50,11 +51,11 @@ public class Data implements DataService {
 
 	
 	//getters and setters
-	public List<Batiment> getBatiments() {
+	public List<BatimentService> getBatiments() {
 		return batiments;
 	}
 
-	public void setBatiments(List<Batiment> batiments) {
+	public void setBatiments(List<BatimentService> batiments) {
 		this.batiments = batiments;
 	}
 
@@ -70,27 +71,27 @@ public class Data implements DataService {
 		this.hostiles.add(new Hostile(p, v, a, comportement));
 	}
 
-	public List<Kit> getKits() {
+	public List<KitService> getKits() {
 		return kits;
 	}
 
-	public void setKits(List<Kit> kits) {
+	public void setKits(List<KitService> kits) {
 		this.kits = kits;
 	}
 
-	public List<Mine> getMines() {
+	public List<MineService> getMines() {
 		return mines;
 	}
 
-	public void setMines(List<Mine> mines) {
+	public void setMines(List<MineService> mines) {
 		this.mines = mines;
 	}
 
-	public List<Piece> getPieces() {
+	public List<PieceService> getPieces() {
 		return pieces;
 	}
 
-	public void setPieces(List<Piece> pieces) {
+	public void setPieces(List<PieceService> pieces) {
 		this.pieces = pieces;
 	}
 

@@ -1,5 +1,11 @@
 package fr.insta.cl.pacinc.pacdrive.data.model;
 
-public class Batiment extends Positionnable {
+import fr.insta.cl.pacinc.pacdrive.specifications.BatimentService;
+import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
+public class Batiment extends Positionnable implements BatimentService{
+
+    public Batiment(Position p) {
+        super(p);
+    }
 }

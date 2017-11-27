@@ -10,21 +10,13 @@ public class Hostile extends Movable implements HostileService {
 	public String comportement ;
 
 	public Hostile(Position p, Vitesse v, Acceleration a, String comportement){
-		this.position = p;
+		super(p);
 		this.vitesse = v;
 		this.acceleration = a;
 		this.comportement = comportement;
 	}
-	
-	public Hostile(String comportement) {
-		super();
-		this.comportement = comportement ;
-	}
-	
-    public Hostile(String comportement, int x, int y) {
-		super();
-		this.position.x = x;
-		this.position.y = y;
-		this.comportement = comportement ;
-	}
+
+    public Hostile(Position p) {
+        super(p);
+    }
 }
