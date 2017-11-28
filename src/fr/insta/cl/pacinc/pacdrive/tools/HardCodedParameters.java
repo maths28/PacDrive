@@ -28,6 +28,8 @@ public class HardCodedParameters {
                           displayZoneYZoomStep = 5;
   public static final double displayZoneAlphaZoomStep = 0.98;
 
+  public static final int LOG_MESSAGES_MAX = 10;
+
   //---MISCELLANOUS---//
   public static final Object loadingLock = new Object();
   public static final String greetingsZoneId = String.valueOf(0xED1C7E),

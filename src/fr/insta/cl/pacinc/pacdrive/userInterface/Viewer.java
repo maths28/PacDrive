@@ -190,7 +190,7 @@ public class Viewer implements ViewerService, RequireReadService{
     for (int i=0; i<mines.size();i++){
       m=mines.get(i);
       double radius=.5*Math.min(shrink*data.getPhantomWidth(),shrink*data.getPhantomHeight());
-      Circle phantomAvatar = new Circle(radius,Color.TEAL);
+      Circle phantomAvatar = new Circle(radius,Color.BLACK);
       phantomAvatar.setEffect(new Lighting());
       phantomAvatar.setTranslateX(shrink*m.getPosition().x+shrink*xModifier-radius);
       phantomAvatar.setTranslateY(shrink*m.getPosition().y+shrink*yModifier-radius);

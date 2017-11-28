@@ -7,5 +7,7 @@ public class Mine extends Positionnable implements MineService {
 
     public Mine(Position p) {
         super(p);
+        this.hauteur = 30;
+        this.largeur = 30;
     }
 }

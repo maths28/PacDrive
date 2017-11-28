@@ -21,6 +21,7 @@ public class Data implements DataService {
 	private List<KitService> kits;
 	private List<MineService> mines ;
 	private List<PieceService> pieces ;
+	private String[] log;
 	private Joueur joueur ;
 	private Terrain terrain ;
 	private int life ;
@@ -40,6 +41,11 @@ public class Data implements DataService {
 		pieces = new ArrayList<PieceService>() ;
 		joueur = new Joueur(new Position(HardCodedParameters.heroesStartX, HardCodedParameters.heroesStartY));
 		terrain = new Terrain() ;
+
+		log = new String[HardCodedParameters.LOG_MESSAGES_MAX];
+		for (int i=0; i < HardCodedParameters.LOG_MESSAGES_MAX; i++) {
+			log[i] = "";
+		}
 
 		kits.add(new Kit(new Position(12, 58)));
 		mines.add(new Mine(new Position(37, 125)));
@@ -162,21 +168,33 @@ public class Data implements DataService {
 		return HardCodedParameters.phantomWidth;
 	}
 	  
-	  @Override
-	  public Sound.SOUND getSoundEffect() { return sound; }
+	@Override
+	public Sound.SOUND getSoundEffect() { return sound; }
 
-	   
-	  @Override
-	  public void addScore(int score){ this.score+=score; }
-	  
-	  @Override
-	  public void setSoundEffect(Sound.SOUND s) { sound=s; }
 
+	@Override
+	public void addScore(int score){ this.score+=score; }
+
+	@Override
+	public void setSoundEffect(Sound.SOUND s) { sound=s; }
+
+	@Override
+	public String[] getLog() {
+		return log;
+	}
+
+	@Override
+	public void setMessageForLog(String message) {
+		for (int i = HardCodedParameters.LOG_MESSAGES_MAX - 1; i > 0; i--) {
+			log[i] = log[i-1];
+		}
+		log[0] = message;
+	}
 
 	@Override
 	public void setHeroesPosition(Position p) {
 		this.joueur.position = p ;
-		
+
 	}
 
 

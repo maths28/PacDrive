@@ -70,6 +70,7 @@ public class Main extends Application{
           if (event.getCode()==KeyCode.RIGHT) engine.setHeroesCommand(User.COMMAND.RIGHT);
           if (event.getCode()==KeyCode.UP) engine.setHeroesCommand(User.COMMAND.UP);
           if (event.getCode()==KeyCode.DOWN) engine.setHeroesCommand(User.COMMAND.DOWN);
+          if (event.getCode()==KeyCode.SPACE) engine.setHeroesCommand(User.COMMAND.SPACE);
           event.consume();
         }
     });
@@ -80,6 +81,7 @@ public class Main extends Application{
           if (event.getCode()==KeyCode.RIGHT) engine.releaseHeroesCommand(User.COMMAND.RIGHT);
           if (event.getCode()==KeyCode.UP) engine.releaseHeroesCommand(User.COMMAND.UP);
           if (event.getCode()==KeyCode.DOWN) engine.releaseHeroesCommand(User.COMMAND.DOWN);
+          if (event.getCode()==KeyCode.SPACE) engine.releaseHeroesCommand(User.COMMAND.SPACE);
           event.consume();
         }
     });

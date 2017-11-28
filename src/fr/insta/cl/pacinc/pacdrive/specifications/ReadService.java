@@ -42,4 +42,6 @@ public interface ReadService {
   public List<PieceService> getPieces();
 
   public List<BatimentService> getBatiments();
+
+  public String[] getLog();
 }

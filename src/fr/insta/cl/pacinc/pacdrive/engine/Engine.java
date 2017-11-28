@@ -8,6 +8,7 @@ package fr.insta.cl.pacinc.pacdrive.engine;
 
 import java.util.*;
 
+import fr.insta.cl.pacinc.pacdrive.data.model.Mine;
 import fr.insta.cl.pacinc.pacdrive.data.model.Movable;
 import fr.insta.cl.pacinc.pacdrive.data.model.Positionnable;
 import fr.insta.cl.pacinc.pacdrive.specifications.*;
@@ -21,7 +22,7 @@ public class Engine implements EngineService, RequireDataService{
   private DataService data;
   private User.COMMAND command;
   private Random gen;
-  private boolean moveLeft,moveRight,moveUp,moveDown;
+  private boolean moveLeft,moveRight,moveUp,moveDown,putMine;
 
   public Engine(){}
 
@@ -39,6 +40,7 @@ public class Engine implements EngineService, RequireDataService{
     moveRight = false;
     moveUp = false;
     moveDown = false;
+    putMine= false;
   }
 
   @Override
@@ -47,7 +49,10 @@ public class Engine implements EngineService, RequireDataService{
       public void run() {
         //System.out.println("Game step #"+data.getStepNumber()+": checked.");
         
-        if (gen.nextInt(10)<3) spawnHostiles();
+        if (gen.nextInt(10)<3) {
+          spawnHostiles();
+          data.setMessageForLog("Nouvel ennemi sur la carte !");
+        }
 
         updateSpeedHeroes();
         updateCommandHeroes();
@@ -67,19 +72,21 @@ public class Engine implements EngineService, RequireDataService{
             move(h);
 
             boolean boom = false ;
-            mines.clear();
+            mines = new ArrayList<>();
 
             if (collisionBetweenPositionnables(data.getJoueur(), h)) {
               data.setSoundEffect(Sound.SOUND.HeroesGotHit);
               data.getJoueur().setHealth(data.getJoueur().getHealth() - 1);
+              data.setMessageForLog("Joueur touché par un ennemi !");
               mines = data.getMines();
             }
             else {
               for (MineService m : data.getMines()) {
                 if (collisionBetweenPositionnables(m, h)) {
                   data.setSoundEffect(Sound.SOUND.PhantomDestroyed);
+                  data.setMessageForLog("Ennemi détruit par une mine !");
                   score++;
-                  boom = true ;
+                  boom = true;
                 }
                 else {
                   mines.add(m);
@@ -95,6 +102,7 @@ public class Engine implements EngineService, RequireDataService{
           if (collisionBetweenPositionnables(data.getJoueur(), k)){
             data.setSoundEffect(Sound.SOUND.KitTaken);
             data.getJoueur().setHealth(data.getJoueur().getHealth() + 1);
+            data.setMessageForLog("Kit ramassé !");
           } else {
             kits.add(k);
           }
@@ -104,12 +112,12 @@ public class Engine implements EngineService, RequireDataService{
 
           if (collisionBetweenPositionnables(data.getJoueur(), p)) {
             data.setSoundEffect(Sound.SOUND.PieceTaken);
+            data.setMessageForLog("Pièce ramassée !");
             score++;
           } else {
             pieces.add(p);
           }
         }
-
 
         data.addScore(score);
 
@@ -133,6 +141,7 @@ public class Engine implements EngineService, RequireDataService{
     if (c==User.COMMAND.RIGHT) moveRight=true;
     if (c==User.COMMAND.UP) moveUp=true;
     if (c==User.COMMAND.DOWN) moveDown=true;
+    if (c==User.COMMAND.SPACE) putMine=true;
   }
   
   @Override
@@ -141,6 +150,7 @@ public class Engine implements EngineService, RequireDataService{
     if (c==User.COMMAND.RIGHT) moveRight=false;
     if (c==User.COMMAND.UP) moveUp=false;
     if (c==User.COMMAND.DOWN) moveDown=false;
+    if (c==User.COMMAND.SPACE) putMine=false;
   }
 
   private void updateSpeedHeroes(){
@@ -153,6 +163,19 @@ public class Engine implements EngineService, RequireDataService{
     if (moveRight) data.getJoueur().vitesse.x+=heroesStep;
     if (moveUp) data.getJoueur().vitesse.y-=heroesStep;
     if (moveDown) data.getJoueur().vitesse.y+=heroesStep;
+    if (putMine) {
+        Boolean emplacement_pris = false;
+        MineService nouvelle_mine = new Mine(data.getJoueur().getPosition());
+        for (MineService m : data.getMines()) {
+            if (collisionBetweenPositionnables(m, nouvelle_mine)) {
+                emplacement_pris = true;
+            }
+        }
+        if (!emplacement_pris) {
+          data.getMines().add(nouvelle_mine);
+          data.setMessageForLog("Mine posée !");
+        }
+    }
   }
   
   private void updatePositionHeroes(){

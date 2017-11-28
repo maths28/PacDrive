@@ -31,4 +31,6 @@ public interface WriteService {
   public void setPieces(List<PieceService> pieces);
 
   public void setBatiments(List<BatimentService> batiments);
+
+  public void setMessageForLog(String message);
 }
