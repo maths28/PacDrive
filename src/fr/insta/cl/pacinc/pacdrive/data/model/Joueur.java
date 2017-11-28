@@ -10,8 +10,13 @@ public class Joueur extends Movable {
 	
 	public Joueur(Position p) {
 		super(p);
-		hauteur = HardCodedParameters.heroesHeight;
-		largeur = HardCodedParameters.heroesWidth;
+
+	}
+
+	@Override
+	protected void initSize() {
+		hauteur = HardCodedParameters.HERO_SIZE_X;
+		largeur = HardCodedParameters.HERO_SIZE_Y;
 	}
 
 	//getters and setters

@@ -70,6 +70,12 @@ public class Engine implements EngineService, RequireDataService{
         for (HostileService h : data.getHostiles()){
 
             move(h);
+            for(BatimentService b : data.getBatiments()){
+              if(collisionBetweenPositionnables(h,b)){
+                collisionWithObstacle(h);
+              }
+            }
+
 
             boolean boom = false ;
             mines = new ArrayList<>();
@@ -254,6 +260,15 @@ public class Engine implements EngineService, RequireDataService{
 
     return false ;
   }
+
+
+  public void collisionWithObstacle(MovableService movable){
+    Vitesse vit = movable.getVitesse();
+    Position pos = movable.getPosition() ;
+    movable.setPosition(pos.x - vit.x, pos.y - vit.y);
+    movable.setVitesse(0,0);
+  }
+
 
 
 }

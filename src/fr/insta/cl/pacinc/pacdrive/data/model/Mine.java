@@ -1,6 +1,7 @@
 package fr.insta.cl.pacinc.pacdrive.data.model;
 
 import fr.insta.cl.pacinc.pacdrive.specifications.MineService;
+import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
 public class Mine extends Positionnable implements MineService {
@@ -9,5 +10,12 @@ public class Mine extends Positionnable implements MineService {
         super(p);
         this.hauteur = 30;
         this.largeur = 30;
+    }
+
+
+    protected void initSize() {
+        hauteur = HardCodedParameters.MINE_SIZE_X;
+        largeur = HardCodedParameters.MINE_SIZE_Y;
+
     }
 }

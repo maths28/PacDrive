@@ -6,6 +6,9 @@
  * ******************************************************/
 package fr.insta.cl.pacinc.pacdrive.tools;
 
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 public class HardCodedParameters {
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";
@@ -46,4 +49,44 @@ public class HardCodedParameters {
       throw new IllegalStateException(e);
     }
   }
+
+  //Positionnables sizes
+
+  //hero
+  public static final int HERO_SIZE_X = 80;
+  public static final int HERO_SIZE_Y = 80;
+
+  //hostile
+  public static final int HOSTILE_SIZE_X = 80;
+  public static final int HOSTILE_SIZE_Y = 80;
+
+  //batiment
+  public static final int BATIMENT_SIZE_X = 80;
+  public static final int BATIMENT_SIZE_Y = 80;
+
+  //mine
+  public static final int MINE_SIZE_X = 80;
+  public static final int MINE_SIZE_Y = 80;
+
+  //kit
+  public static final int KIT_SIZE_X = 80;
+  public static final int KIT_SIZE_Y = 80;
+
+  //piece
+  public static final int PIECE_SIZE_X = 80;
+  public static final int PIECE_SIZE_Y = 80;
+
+  //Limite des zones
+
+  public static final double OFFSET_X = .01*defaultHeight; ;
+  public static final double OFFSET_Y = .01*defaultHeight; ;
+
+  public static final double AREA_GAME_X_START = OFFSET_X;
+  public static final double AREA_GAME_Y_START = OFFSET_Y;
+  public static final double AREA_GAME_X_END = OFFSET_X + 0.68*defaultWidth;
+  public static final double AREA_GAME_Y_END = OFFSET_Y + 0.8*defaultHeight;
+
+
+
+
 }

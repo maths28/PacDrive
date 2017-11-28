@@ -19,7 +19,12 @@ public class Hostile extends Movable implements HostileService {
 
     public Hostile(Position p) {
         super(p);
-		hauteur = HardCodedParameters.phantomHeight;
-		largeur = HardCodedParameters.phantomWidth;
+
     }
+
+	@Override
+	protected void initSize() {
+		hauteur = HardCodedParameters.HOSTILE_SIZE_X;
+		largeur = HardCodedParameters.HOSTILE_SIZE_Y;
+	}
 }

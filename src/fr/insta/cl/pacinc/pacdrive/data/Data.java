@@ -50,9 +50,23 @@ public class Data implements DataService {
 		kits.add(new Kit(new Position(12, 58)));
 		mines.add(new Mine(new Position(37, 125)));
 		pieces.add(new Piece(new Position(127, 10)));
-		batiments.add(new Batiment(new Position(210, 68)));
-//		joueur.setHealth(health);
-//		joueur.setMunition(munition);
+
+		//A AJOUTER
+//		for(double j = 10; j < HardCodedParameters.defaultHeight; j+=70) {
+//			for (double i = 0; i < HardCodedParameters.defaultWidth; i += 30) {
+//				if (i % 90 == 0) {
+//					batiments.add(new Batiment(new Position(i, j)));
+//					batiments.add(new Batiment(new Position(i, j+10)));
+//					if(i + 20 < HardCodedParameters.defaultWidth){
+//						batiments.add(new Batiment(new Position(i + 10, j)));
+//						batiments.add(new Batiment(new Position(i + 10, j+10)));
+//					}
+//				}
+//			}
+//		}
+		//FIN AJOUT
+/*		joueur.setHealth(health);
+		joueur.setMunition(munition);*/
 
 	}
 

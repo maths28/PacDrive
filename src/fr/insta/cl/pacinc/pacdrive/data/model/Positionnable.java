@@ -11,6 +11,7 @@ public abstract class Positionnable implements PositionnableService{
 
 	public Positionnable(Position p){
 		this.position = p;
+		this.initSize();
 	}
 
 
@@ -57,6 +58,8 @@ public abstract class Positionnable implements PositionnableService{
 		this.position.x = x;
 		this.position.y = y;
 	}
+
+	protected abstract void initSize();
 
 
 
