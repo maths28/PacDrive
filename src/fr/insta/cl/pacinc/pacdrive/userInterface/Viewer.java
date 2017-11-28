@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Rectangle2D;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,8 +93,9 @@ public class Viewer implements ViewerService, RequireReadService{
     yModifier=.01*shrink*defaultMainHeight;
 
     //Yucky hard-conding
-    Rectangle map = new Rectangle(-2*xModifier+shrink*defaultMainWidth,
-                                  -.2*shrink*defaultMainHeight+shrink*defaultMainHeight);
+    Rectangle map = new Rectangle(0.68*shrink*defaultMainWidth,
+            0.8*shrink*defaultMainHeight);
+
     map.setFill(Color.WHITE);
     map.setStroke(Color.DIMGRAY);
     map.setStrokeWidth(.01*shrink*defaultMainHeight);
@@ -102,13 +104,13 @@ public class Viewer implements ViewerService, RequireReadService{
     map.setTranslateX(xModifier);
     map.setTranslateY(yModifier);
     
-    Text greets = new Text(0.3*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
-            -0.05*shrink*defaultMainWidth+shrink*defaultMainHeight,
+    Text greets = new Text(0.4*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
+            -0.07*shrink*defaultMainWidth+shrink*defaultMainHeight,
                            "Round 1");
     greets.setFont(new Font(.05*shrink*defaultMainHeight));
     
     Text score = new Text(-0.1*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
-                           -0.05*shrink*defaultMainWidth+shrink*defaultMainHeight,
+                           -0.07*shrink*defaultMainWidth+shrink*defaultMainHeight,
                            "Score: "+data.getScore());
     score.setFont(new Font(.05*shrink*defaultMainHeight));
     
@@ -129,8 +131,19 @@ public class Viewer implements ViewerService, RequireReadService{
                               );
     heroesAvatarViewportIndex=(heroesAvatarViewportIndex+1)%(heroesAvatarViewports.size()*spriteSlowDownRate);
 
+    Rectangle console = new Rectangle(0.30*shrink*defaultMainWidth,
+            0.80*shrink*defaultMainHeight);
+
+    console.setFill(Color.rgb(167,167,167));
+    console.setStroke(Color.DIMGRAY);
+    console.setStrokeWidth(.01*shrink*defaultMainHeight);
+    console.setArcWidth(.04*shrink*defaultMainHeight);
+    console.setArcHeight(.04*shrink*defaultMainHeight);
+    console.setTranslateX(0.70*shrink*defaultMainWidth);
+    console.setTranslateY(5*shrink);
+
     Group panel = new Group();
-    panel.getChildren().addAll(map,greets,score,heroesAvatar);
+    panel.getChildren().addAll(map,greets,score,heroesAvatar, console);
 
     List<HostileService> hostiles = data.getHostiles();
     HostileService h;
@@ -197,9 +210,37 @@ public class Viewer implements ViewerService, RequireReadService{
       panel.getChildren().add(phantomAvatar);
     }
 
-    Text textLife = new Text(100*shrink, -0.05*shrink*defaultMainWidth+shrink*defaultMainHeight, "Vie : " + data.getJoueur().getHealth());
+    /*String str = "";
+    for (int i = 0; i<HardCodedParameters.LOG_MESSAGES_MAX; i++) {
+      str = str + data.getLog()[i] + "\n";
+    }
+    Text log = new Text(50, 50, str);
+    log.setFont(new Font(10));
+    panel.getChildren().add(log);*/
+    Text textLife = new Text(0.2*shrink*defaultMainHeight, -0.07*shrink*defaultMainWidth+shrink*defaultMainHeight, "Vie : " + data.getJoueur().getHealth());
     textLife.setFont(new Font(.05*shrink*defaultMainHeight));
     panel.getChildren().add(textLife);
+
+    DecimalFormat df = new DecimalFormat() ;
+    df.setMaximumFractionDigits (0);
+
+    Text textPositionJoueur = new Text(0.5*shrink*defaultMainHeight, -0.02*shrink*defaultMainWidth+shrink*defaultMainHeight, "Position : " + df.format(data.getJoueur().getPosition().x) + " : " + df.format(data.getJoueur().getPosition().y));
+    textPositionJoueur.setFont(new Font(.05*shrink*defaultMainHeight));
+    panel.getChildren().add(textPositionJoueur);
+
+    Text textConsole = new Text(1.05*shrink*defaultMainHeight, -0.69*shrink*defaultMainWidth+shrink*defaultMainHeight, "Console");
+    textConsole.setFont(new Font(.05*shrink*defaultMainHeight));
+    panel.getChildren().add(textConsole);
+
+    Double positionY = 0.15;
+
+    for(int i = 0; i<HardCodedParameters.LOG_MESSAGES_MAX; i++){
+      Text textDonneesConsole = new Text(0.95 * shrink * defaultMainHeight, positionY * shrink * defaultMainHeight, data.getLog()[i]);
+      textDonneesConsole.setFont(new Font(.03 * shrink * defaultMainHeight));
+      panel.getChildren().add(textDonneesConsole);
+      positionY = positionY + 0.05;
+    }
+
 
     return panel;
   }

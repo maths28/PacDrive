@@ -77,14 +77,14 @@ public class Engine implements EngineService, RequireDataService{
             if (collisionBetweenPositionnables(data.getJoueur(), h)) {
               data.setSoundEffect(Sound.SOUND.HeroesGotHit);
               data.getJoueur().setHealth(data.getJoueur().getHealth() - 1);
-              data.setMessageForLog("Joueur touché par un ennemi !");
+              data.setMessageForLog("Joueur touché par ennemi !");
               mines = data.getMines();
             }
             else {
               for (MineService m : data.getMines()) {
                 if (collisionBetweenPositionnables(m, h)) {
                   data.setSoundEffect(Sound.SOUND.PhantomDestroyed);
-                  data.setMessageForLog("Ennemi détruit par une mine !");
+                  data.setMessageForLog("Ennemi détruit par mine !");
                   score++;
                   boom = true;
                 }
