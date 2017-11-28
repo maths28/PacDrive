@@ -7,5 +7,5 @@
 package fr.insta.cl.pacinc.pacdrive.tools;
 
 public class Sound {
-  public static enum SOUND { PhantomDestroyed, HeroesGotHit, None };
+  public static enum SOUND { PhantomDestroyed, HeroesGotHit, KitTaken, PieceTaken, None };
 }

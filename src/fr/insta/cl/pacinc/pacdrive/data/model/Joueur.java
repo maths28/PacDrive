@@ -6,8 +6,6 @@ import fr.insta.cl.pacinc.pacdrive.tools.Position;
 public class Joueur extends Movable {
 	
 	private int health ;
-	
-
 	private int munition ;
 	
 	public Joueur(Position p) {

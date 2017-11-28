@@ -6,16 +6,12 @@
  * ******************************************************/
 package fr.insta.cl.pacinc.pacdrive.engine;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import fr.insta.cl.pacinc.pacdrive.data.model.Movable;
 import fr.insta.cl.pacinc.pacdrive.data.model.Positionnable;
 import fr.insta.cl.pacinc.pacdrive.specifications.*;
 import fr.insta.cl.pacinc.pacdrive.tools.*;
-
-import java.util.Random;
-import java.util.ArrayList;
 
 public class Engine implements EngineService, RequireDataService{
   private static final double friction=HardCodedParameters.friction,
@@ -57,25 +53,69 @@ public class Engine implements EngineService, RequireDataService{
         updateCommandHeroes();
         updatePositionHeroes();
 
-        ArrayList<HostileService> hostiles = new ArrayList<HostileService>();
+        List<HostileService> hostiles = new ArrayList<>();
+        List<KitService> kits = new ArrayList<>();
+        List<PieceService> pieces = new ArrayList<>();
+        List<MineService> mines = new ArrayList<>();
+
         int score=0;
 
         data.setSoundEffect(Sound.SOUND.None);
 
-        for (HostileService h:data.getHostiles()){
-          if (true) move(h);
+        for (HostileService h : data.getHostiles()){
 
-          if (collisionBetweenPositionnables(data.getJoueur(), h)){
-            data.setSoundEffect(Sound.SOUND.HeroesGotHit);
-            score++;
+            move(h);
+
+            boolean boom = false ;
+            mines.clear();
+
+            if (collisionBetweenPositionnables(data.getJoueur(), h)) {
+              data.setSoundEffect(Sound.SOUND.HeroesGotHit);
+              data.getJoueur().setHealth(data.getJoueur().getHealth() - 1);
+              mines = data.getMines();
+            }
+            else {
+              for (MineService m : data.getMines()) {
+                if (collisionBetweenPositionnables(m, h)) {
+                  data.setSoundEffect(Sound.SOUND.PhantomDestroyed);
+                  score++;
+                  boom = true ;
+                }
+                else {
+                  mines.add(m);
+                }
+              }
+              if (! boom) hostiles.add(h);
+            }
+            data.setMines(mines);
+        }
+
+        for (KitService k : data.getKits()){
+
+          if (collisionBetweenPositionnables(data.getJoueur(), k)){
+            data.setSoundEffect(Sound.SOUND.KitTaken);
+            data.getJoueur().setHealth(data.getJoueur().getHealth() + 1);
           } else {
-            if (h.getPosition().x>0) hostiles.add(h);
+            kits.add(k);
           }
         }
+
+        for (PieceService p : data.getPieces()) {
+
+          if (collisionBetweenPositionnables(data.getJoueur(), p)) {
+            data.setSoundEffect(Sound.SOUND.PieceTaken);
+            score++;
+          } else {
+            pieces.add(p);
+          }
+        }
+
 
         data.addScore(score);
 
         data.setHostiles(hostiles);
+        data.setKits(kits);
+        data.setPieces(pieces);
 
         data.setStepNumber(data.getStepNumber()+1);
       }
@@ -188,9 +228,6 @@ public class Engine implements EngineService, RequireDataService{
     if( (p2.x + p2Width > p1.x && p2.x + p2Width < p1.x+p1Width && p2.y > p1.y && p2.y < p1.y+p1Height))return true;
     if( (p2.x + p2Width> p1.x && p2.x + p2Width < p1.x+p1Width && p2.y + p2Height > p1.y && p2.y  + p2Height < p1.y+p1Height))return true;
     if( (p2.x > p1.x && p2.x < p1.x+p1Width && p2.y + p2Height > p1.y && p2.y  + p2Height < p1.y+p1Height))return true;
-
-
-
 
     return false ;
   }
