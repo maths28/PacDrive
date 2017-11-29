@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class HardCodedParameters {
+
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";
   public static final int defaultWidth = 800, defaultHeight = 600,
@@ -53,28 +54,28 @@ public class HardCodedParameters {
   //Positionnables sizes
 
   //hero
-  public static final int HERO_SIZE_X = 80;
-  public static final int HERO_SIZE_Y = 80;
+  public static final int HERO_SIZE_X = 70;
+  public static final int HERO_SIZE_Y = 30;
 
   //hostile
   public static final int HOSTILE_SIZE_X = 20;
-  public static final int HOSTILE_SIZE_Y = 20;
+  public static final int HOSTILE_SIZE_Y = 10;
 
   //batiment
   public static final int BATIMENT_SIZE_X = 30;
   public static final int BATIMENT_SIZE_Y = 30;
 
   //mine
-  public static final int MINE_SIZE_X = 80;
-  public static final int MINE_SIZE_Y = 80;
+  public static final int MINE_SIZE_X = 35;
+  public static final int MINE_SIZE_Y = 35;
 
   //kit
-  public static final int KIT_SIZE_X = 80;
-  public static final int KIT_SIZE_Y = 80;
+  public static final int KIT_SIZE_X = 40;
+  public static final int KIT_SIZE_Y = 40;
 
   //piece
-  public static final int PIECE_SIZE_X = 80;
-  public static final int PIECE_SIZE_Y = 80;
+  public static final int PIECE_SIZE_X = 40;
+  public static final int PIECE_SIZE_Y = 40;
 
   //Limite des zones
 
@@ -110,6 +111,16 @@ public class HardCodedParameters {
 
   public static final Double SIZE_TITRE_CONSOLE = 40.0;
   public static final Double SIZE_TEXT_CONSOLE = 18.0;
+
+  //Game Over
+  public static final double COEF_FONT_SIZE = .05;
+  public static final double COEF_GAME_OVER_FONT_SIZE = 0.20;
+  public static final int  GAME_OVER_TEXT_XPART = 8;
+  public static final int  GAME_OVER_TEXT_YPART = 2;
+  public static final int STAT_GAME_OVER_OFFSET_Y = 50;
+  public static final int STAT_GAME_OVER_OFFSET_Y_2 = 80;
+
+  public static final int INIT_STARTING_HP = 2;
 
 
 }

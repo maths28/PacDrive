@@ -44,4 +44,6 @@ public interface ReadService {
   public List<BatimentService> getBatiments();
 
   public String[] getLog();
+
+  public boolean gameIsOver();
 }

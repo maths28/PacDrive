@@ -39,7 +39,29 @@ public class Viewer implements ViewerService, RequireReadService{
   private int heroesAvatarViewportIndex;
   private double xShrink,yShrink,shrink,xModifier,yModifier,heroesScale;
 
-  public Viewer(){}
+  //Sprites
+        //UI
+  private ImagePattern FondConsole = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/FondConsole.jpg"));
+
+        //positionnables
+    private ImagePattern mine = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/positionnables/mine.png"));
+    private ImagePattern kit_reparation = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/positionnables/kit_reparation.png"));
+
+        //hostile
+    private ImagePattern hostile_down = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/hostile/voiture_rouge_down.png"));
+    private ImagePattern hostile_up = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/hostile/voiture_rouge_up.png"));
+    private ImagePattern hostile_left = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/hostile/voiture_rouge_left.png"));
+    private ImagePattern hostile_right = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/hostile/voiture_rouge_right.png"));
+
+        //joueur
+    private ImagePattern joueur_down = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/joueur/voiture_verte_down.png"));
+    private ImagePattern joueur_up = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/joueur/voiture_verte_up.png"));
+    private ImagePattern joueur_left = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/joueur/voiture_verte_left.png"));
+    private ImagePattern joueur_right = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/joueur/voiture_verte_right.png"));
+
+
+
+    public Viewer(){}
   
   @Override
   public void bindReadService(ReadService service){
@@ -52,38 +74,7 @@ public class Viewer implements ViewerService, RequireReadService{
     yShrink=1;
     xModifier=0;
     yModifier=0;
-
-    //Yucky hard-conding
-    heroesSpriteSheet = new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/modern soldier large.png");
-    heroesAvatar = new ImageView(heroesSpriteSheet);
-    heroesAvatarViewports = new ArrayList<Rectangle2D>();
-    heroesAvatarXModifiers = new ArrayList<Integer>();
-    heroesAvatarYModifiers = new ArrayList<Integer>();
-
-    heroesAvatarViewportIndex=0;
-    
-    //TODO: replace the following with XML loader
-    //heroesAvatarViewports.add(new Rectangle2D(301,386,95,192));
-    heroesAvatarViewports.add(new Rectangle2D(570,194,115,190));
-    heroesAvatarViewports.add(new Rectangle2D(398,386,133,192));
-    heroesAvatarViewports.add(new Rectangle2D(155,194,147,190));
-    heroesAvatarViewports.add(new Rectangle2D(785,386,127,194));
-    heroesAvatarViewports.add(new Rectangle2D(127,582,135,198));
-    heroesAvatarViewports.add(new Rectangle2D(264,582,111,200));
-    heroesAvatarViewports.add(new Rectangle2D(2,582,123,198));
-    heroesAvatarViewports.add(new Rectangle2D(533,386,115,192));
-    //heroesAvatarViewports.add(new Rectangle2D(204,386,95,192));
-
-    //heroesAvatarXModifiers.add(10);heroesAvatarYModifiers.add(-7);
-    heroesAvatarXModifiers.add(6);heroesAvatarYModifiers.add(-6);
-    heroesAvatarXModifiers.add(2);heroesAvatarYModifiers.add(-8);
-    heroesAvatarXModifiers.add(1);heroesAvatarYModifiers.add(-10);
-    heroesAvatarXModifiers.add(1);heroesAvatarYModifiers.add(-13);
-    heroesAvatarXModifiers.add(5);heroesAvatarYModifiers.add(-15);
-    heroesAvatarXModifiers.add(5);heroesAvatarYModifiers.add(-13);
-    heroesAvatarXModifiers.add(0);heroesAvatarYModifiers.add(-9);
-    heroesAvatarXModifiers.add(0);heroesAvatarYModifiers.add(-6);
-    //heroesAvatarXModifiers.add(10);heroesAvatarYModifiers.add(-7);
+      
     
   }
 
@@ -93,32 +84,20 @@ public class Viewer implements ViewerService, RequireReadService{
     xModifier=shrink*HardCodedParameters.OFFSET_X;
     yModifier=shrink*HardCodedParameters.OFFSET_Y;
 
-
-    /*int index=heroesAvatarViewportIndex/spriteSlowDownRate;
-    heroesScale=data.getHeroesHeight()*shrink/heroesAvatarViewports.get(index).getHeight();
-    heroesAvatar.setViewport(heroesAvatarViewports.get(index));
-    heroesAvatar.setFitHeight(data.getHeroesHeight()*shrink);
-    heroesAvatar.setPreserveRatio(true);
-    heroesAvatar.setTranslateX(shrink*data.getHeroesPosition().x+
-                               shrink*xModifier+
-                               -heroesScale*0.5*heroesAvatarViewports.get(index).getWidth()+
-                               shrink*heroesScale*heroesAvatarXModifiers.get(index)
-                              );
-    heroesAvatar.setTranslateY(shrink*data.getHeroesPosition().y+
-                               shrink*yModifier+
-                               -heroesScale*0.5*heroesAvatarViewports.get(index).getHeight()+
-                               shrink*heroesScale*heroesAvatarYModifiers.get(index)
-                              );
-    heroesAvatarViewportIndex=(heroesAvatarViewportIndex+1)%(heroesAvatarViewports.size()*spriteSlowDownRate);*/
+  Group panel = new Group();
+    if(data.gameIsOver()){
+        generateGameOver(panel);
+    }
+    else {
+        generateGamePanel(panel);
+        generateStatPanel(panel);
+        generateConsolePanel(panel) ;
+    }
 
 
 
-    Group panel = new Group();
 
 
-      generateGamePanel(panel);
-      generateStatPanel(panel);
-      generateConsolePanel(panel) ;
 
 
     return panel;
@@ -140,8 +119,7 @@ public class Viewer implements ViewerService, RequireReadService{
       Rectangle map = new Rectangle(shrink*(HardCodedParameters.AREA_GAME_X_END-HardCodedParameters.AREA_GAME_X_START),
               shrink*(HardCodedParameters.AREA_GAME_Y_END-HardCodedParameters.AREA_GAME_Y_START));
 
-      System.out.println(shrink*(HardCodedParameters.AREA_GAME_X_END-HardCodedParameters.AREA_GAME_X_START)+
-              shrink*(HardCodedParameters.AREA_GAME_Y_END-HardCodedParameters.AREA_GAME_Y_START));
+
       map.setFill(Color.WHITE);
       map.setStroke(Color.DIMGRAY);
       map.setStrokeWidth(.01*shrink*defaultMainHeight);
@@ -155,9 +133,25 @@ public class Viewer implements ViewerService, RequireReadService{
       //Joueur
       Joueur j=data.getJoueur();
       Rectangle joueurAvatar = new Rectangle(j.getLargeur()*shrink, j.getHauteur()*shrink);
-      joueurAvatar.setFill(Color.BLUE);
+
       joueurAvatar.setTranslateX(shrink*j.getPosition().x+shrink*xModifier);
       joueurAvatar.setTranslateY(shrink*j.getPosition().y+shrink*yModifier);
+
+      switch (j.getDirection()){
+          case "rigth" :
+              joueurAvatar.setFill(joueur_right);
+              break ;
+          case "left" :
+              joueurAvatar.setFill(joueur_left);
+              break ;
+          case "up" :
+              joueurAvatar.setFill(joueur_up);
+              break ;
+          default : //down
+              joueurAvatar.setFill(joueur_down);
+              break ;
+      }
+
       panel.getChildren().add(joueurAvatar);
 
 
@@ -168,7 +162,24 @@ public class Viewer implements ViewerService, RequireReadService{
       for (int i=0; i<hostiles.size();i++){
           h=hostiles.get(i);
           Rectangle hostileAvatar = new Rectangle(h.getLargeur()*shrink, h.getHauteur()*shrink);
-          hostileAvatar.setFill(Color.RED);
+
+
+          switch (h.getDirection()){
+              case "rigth" :
+                  hostileAvatar.setFill(hostile_right);
+                  break ;
+              case "left" :
+                  hostileAvatar.setFill(hostile_left);
+                  break ;
+              case "up" :
+                  hostileAvatar.setFill(hostile_up);
+                  break ;
+              default : //down
+                  hostileAvatar.setFill(hostile_down);
+                  break ;
+          }
+
+
           hostileAvatar.setTranslateX(shrink*h.getPosition().x+shrink*xModifier);
           hostileAvatar.setTranslateY(shrink*h.getPosition().y+shrink*yModifier);
           panel.getChildren().add(hostileAvatar);
@@ -208,7 +219,7 @@ public class Viewer implements ViewerService, RequireReadService{
       for (int i=0; i<kits.size();i++){
           k=kits.get(i);
           Rectangle kitAvatar = new Rectangle(k.getLargeur()*shrink, k.getHauteur()*shrink);
-          kitAvatar.setFill(Color.GREEN);
+          kitAvatar.setFill(kit_reparation);
           kitAvatar.setTranslateX(shrink*k.getPosition().x+shrink*xModifier);
           kitAvatar.setTranslateY(shrink*k.getPosition().y+shrink*yModifier);
           panel.getChildren().add(kitAvatar);
@@ -221,7 +232,7 @@ public class Viewer implements ViewerService, RequireReadService{
       for (int i=0; i<mines.size();i++){
           m=mines.get(i);
           Rectangle mineAvatar = new Rectangle(m.getLargeur()*shrink, m.getHauteur()*shrink);
-          mineAvatar.setFill(Color.BLACK);
+          mineAvatar.setFill(mine);
           mineAvatar.setTranslateX(shrink*m.getPosition().x+shrink*xModifier);
           mineAvatar.setTranslateY(shrink*m.getPosition().y+shrink*yModifier);
           panel.getChildren().add(mineAvatar);
@@ -238,7 +249,6 @@ public class Viewer implements ViewerService, RequireReadService{
                 shrink*(HardCodedParameters.CONSOLE_Y_END-HardCodedParameters.CONSOLE_Y_START));
 
 
-        ImagePattern FondConsole = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/FondConsole.jpg"));
 
         console.setFill(Color.rgb(167,167,167));
         console.setStroke(Color.DIMGRAY);
@@ -303,5 +313,36 @@ public class Viewer implements ViewerService, RequireReadService{
         textPositionJoueur.setFont(new Font(HardCodedParameters.SIZE_TEXT_STATS*shrink));
         panel.getChildren().add(textPositionJoueur);
     }
+
+    private Parent generateGameOver(Group panel){
+
+        DecimalFormat df = new DecimalFormat() ;
+        df.setMaximumFractionDigits (0);
+
+        Text greets = new Text(HardCodedParameters.defaultWidth*shrink/HardCodedParameters.GAME_OVER_TEXT_XPART,
+                HardCodedParameters.defaultHeight*shrink/HardCodedParameters.GAME_OVER_TEXT_YPART,
+                "Game Over");
+        greets.setFont(new Font(HardCodedParameters.COEF_GAME_OVER_FONT_SIZE *shrink*defaultMainHeight));
+
+        Text score = new Text(-0.1*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
+                HardCodedParameters.defaultHeight*shrink/HardCodedParameters.GAME_OVER_TEXT_YPART+ HardCodedParameters.STAT_GAME_OVER_OFFSET_Y*shrink,
+                "Score: "+data.getScore());
+        score.setFont(new Font(HardCodedParameters.COEF_FONT_SIZE *shrink*defaultMainHeight));
+
+        Text textPositionJoueur = new Text(0.5*shrink*defaultMainHeight, HardCodedParameters.defaultHeight*shrink/HardCodedParameters.GAME_OVER_TEXT_YPART+ HardCodedParameters.STAT_GAME_OVER_OFFSET_Y_2*shrink, "Position : " + df.format(data.getJoueur().getPosition().x) + " : " + df.format(data.getJoueur().getPosition().y));
+        textPositionJoueur.setFont(new Font(HardCodedParameters.COEF_FONT_SIZE *shrink*defaultMainHeight));
+
+        Text round = new Text(0.4*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
+                HardCodedParameters.defaultHeight*shrink/HardCodedParameters.GAME_OVER_TEXT_YPART+ HardCodedParameters.STAT_GAME_OVER_OFFSET_Y*shrink,
+                "Round 1");
+        round.setFont(new Font(HardCodedParameters.COEF_FONT_SIZE *shrink*defaultMainHeight));
+
+        Text textLife = new Text(0.2*shrink*defaultMainHeight, HardCodedParameters.defaultHeight*shrink/HardCodedParameters.GAME_OVER_TEXT_YPART+ HardCodedParameters.STAT_GAME_OVER_OFFSET_Y*shrink, "Vie : " + data.getJoueur().getHealth());
+        textLife.setFont(new Font(HardCodedParameters.COEF_FONT_SIZE *shrink*defaultMainHeight));
+
+        panel.getChildren().addAll(greets, score, textPositionJoueur, round, textLife);
+        return panel;
+    }
+
 
 }

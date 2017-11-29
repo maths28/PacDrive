@@ -78,4 +78,37 @@ public abstract class Movable extends Positionnable implements MovableService {
 	public void setAcceleration(Acceleration a) {
 		this.acceleration = a;
 	}
+
+
+	@Override
+	public String getDirection() {
+		if(Math.abs(vitesse.x) < Math.abs(vitesse.y)){
+			if(vitesse.y < 0){
+				return "up" ;
+			}
+			else {
+				return "down";
+			}
+		}
+		else {
+			if(vitesse.x < 0){
+				return "left" ;
+			}
+			else {
+				return "right";
+			}
+		}
+	}
+
+	@Override
+	public double getHauteur() {
+		if (getDirection() == "right" || getDirection() == "left") return largeur;
+		return hauteur;
+	}
+
+	@Override
+	public double getLargeur() {
+		if (getDirection() == "right" || getDirection() == "left") return hauteur;
+		return largeur;
+	}
 }

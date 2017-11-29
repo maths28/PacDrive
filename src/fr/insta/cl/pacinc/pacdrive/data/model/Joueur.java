@@ -37,5 +37,4 @@ public class Joueur extends Movable {
 	}
 
 
-
 }

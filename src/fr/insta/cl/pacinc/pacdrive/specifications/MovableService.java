@@ -29,4 +29,6 @@ public interface MovableService extends PositionnableService{
     public void setVitesse(Vitesse v);
     public void setAcceleration(Acceleration a);
 
+    public String getDirection();
+
 }

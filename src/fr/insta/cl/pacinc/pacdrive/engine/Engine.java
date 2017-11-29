@@ -7,6 +7,7 @@
 package fr.insta.cl.pacinc.pacdrive.engine;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import fr.insta.cl.pacinc.pacdrive.data.model.Hostile;
 import fr.insta.cl.pacinc.pacdrive.data.model.Mine;
@@ -48,7 +49,11 @@ public class Engine implements EngineService, RequireDataService{
   public void start(){
     engineClock.schedule(new TimerTask(){
       public void run() {
-        //System.out.println("Game step #"+data.getStepNumber()+": checked.");
+
+        data.setSoundEffect(Sound.SOUND.None);
+          if (data.gameIsOver()){
+            return ;
+          }
         
 //        if (gen.nextInt(10)<3) {
 //          spawnHostiles();
@@ -67,14 +72,23 @@ public class Engine implements EngineService, RequireDataService{
 
         int score=0;
 
-        data.setSoundEffect(Sound.SOUND.None);
+
 
         for (HostileService h : data.getHostiles()){
 
-            //iaNavigation(h);
-            h.setTimer(h.getTimer() - 1);
-            updateVitesseHostiles(h);
-            move(h);
+          switch(h.getComportement()){
+            case "avancee1":
+              h.setTimer(h.getTimer() - 1);
+              iaAvancee1(h);
+              break ;
+            case "avancee2":
+              iaAvancee2(h);
+              break;
+            default :
+              iaPrimitive(h);
+          }
+
+           move(h);
             for(BatimentService b : data.getBatiments()){
               if(collisionBetweenPositionnables(h,b)){
                 collisionWithObstacle(h);
@@ -195,7 +209,7 @@ public class Engine implements EngineService, RequireDataService{
     //etc...
   }
 
-  private void updateVitesseHostiles(HostileService h) {
+  private void iaAvancee1(HostileService h) {
     int n = pulse_nord(h);
     int s = pulse_sud(h);
     int e = pulse_est(h);
@@ -292,7 +306,37 @@ public class Engine implements EngineService, RequireDataService{
     }
   }
 
- /* public void iaNavigation(HostileService h) {
+  public void iaPrimitive(HostileService h) {
+
+    if (h.getVitesse().x == 0 && h.getVitesse().y == 0)
+    {
+
+      int i = ThreadLocalRandom.current().nextInt(1, 5);
+      switch (i) {
+        case 1:
+          h.setAcceleration(0, 1);
+          h.setVitesse(0, 1);
+          break;
+        case 2:
+          h.setAcceleration(0, -1);
+          h.setVitesse(0, -1);
+          break;
+        case 3:
+          h.setAcceleration(1, 0);
+          h.setVitesse(1, 0);
+          break;
+        case 4:
+          h.setAcceleration(-1, 0);
+          h.setVitesse(-1, 0);
+          break;
+
+      }
+    }
+
+  }
+
+
+ public void iaAvancee2(HostileService h) {
     boolean n = pulse_nord(h) < 2;
     boolean s = pulse_sud(h) < 2;
     boolean e = pulse_est(h) < 2;
@@ -325,7 +369,7 @@ public class Engine implements EngineService, RequireDataService{
       else if (!n) h.setAcceleration(0, -1);
     }
   }
-*/
+
   private int pulse_nord(HostileService h) {
     int free_space = 0;
     HostileService hostile_translated = new Hostile(new Position(h.getPositionX(),h.getPositionY()),new Vitesse(0,0),new Acceleration(0,0),"");
@@ -399,23 +443,6 @@ public class Engine implements EngineService, RequireDataService{
     }
     data.addHostile(new Position(x,y), new Vitesse(0, 0), new Acceleration(-1, 0), "");
   }
-
-/*  private boolean collisionHeroesHostiles(HostileService h){
-    return (
-      (data.getHeroesPosition().x-h.getPosition().x)*(data.getHeroesPosition().x-h.getPosition().x)+
-      (data.getHeroesPosition().y-h.getPosition().y)*(data.getHeroesPosition().y-h.getPosition().y) <
-      0.25*(data.getHeroesWidth()+data.getPhantomWidth())*(data.getHeroesWidth()+data.getPhantomWidth())
-    );
-  }*/
-  
-//  private boolean collisionHeroesHostiles(){
-//    for (HostileService h:data.getHostiles()){
-//      if (collisionHeroesHostiles(h)){
-//        return true;
-//      }
-//    }
-//    return false;
-//  }
 
   public void move(MovableService movableService){
     double aX = movableService.getAccelerationX();
