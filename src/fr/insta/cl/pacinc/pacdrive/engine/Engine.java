@@ -8,6 +8,7 @@ package fr.insta.cl.pacinc.pacdrive.engine;
 
 import java.util.*;
 
+import fr.insta.cl.pacinc.pacdrive.data.model.Hostile;
 import fr.insta.cl.pacinc.pacdrive.data.model.Mine;
 import fr.insta.cl.pacinc.pacdrive.data.model.Movable;
 import fr.insta.cl.pacinc.pacdrive.data.model.Positionnable;
@@ -49,14 +50,15 @@ public class Engine implements EngineService, RequireDataService{
       public void run() {
         //System.out.println("Game step #"+data.getStepNumber()+": checked.");
         
-        if (gen.nextInt(10)<3) {
-          spawnHostiles();
-          data.setMessageForLog("Nouvel ennemi sur la carte !");
-        }
+//        if (gen.nextInt(10)<3) {
+//          spawnHostiles();
+//          data.setMessageForLog("Nouvel ennemi sur la carte !");
+//        }
 
         updateSpeedHeroes();
         updateCommandHeroes();
         updatePositionHeroes();
+        //updateVitesseHostiles();
 
         List<HostileService> hostiles = new ArrayList<>();
         List<KitService> kits = new ArrayList<>();
@@ -69,6 +71,9 @@ public class Engine implements EngineService, RequireDataService{
 
         for (HostileService h : data.getHostiles()){
 
+            //iaNavigation(h);
+            h.setTimer(h.getTimer() - 1);
+            updateVitesseHostiles(h);
             move(h);
             for(BatimentService b : data.getBatiments()){
               if(collisionBetweenPositionnables(h,b)){
@@ -188,6 +193,197 @@ public class Engine implements EngineService, RequireDataService{
     data.setHeroesPosition(new Position(data.getHeroesPosition().x+data.getJoueur().vitesse.x,data.getHeroesPosition().y+data.getJoueur().vitesse.y));
     //if (data.getHeroesPosition().x<0) data.setHeroesPosition(new Position(0,data.getHeroesPosition().y));
     //etc...
+  }
+
+  private void updateVitesseHostiles(HostileService h) {
+    int n = pulse_nord(h);
+    int s = pulse_sud(h);
+    int e = pulse_est(h);
+    int o = pulse_ouest(h);
+    // si dans une rue horizontale
+    if (n < HardCodedParameters.NB_PULSES && s < HardCodedParameters.NB_PULSES) {
+      if (e < HardCodedParameters.NB_PULSES) {
+        h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+        return;
+      } else if (o < HardCodedParameters.NB_PULSES) {
+        h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+        return;
+      } else {
+        return;
+      }
+    }
+    // si dans une rue verticale
+    if (e < HardCodedParameters.NB_PULSES && o < HardCodedParameters.NB_PULSES) {
+      if (n < HardCodedParameters.NB_PULSES) {
+        h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+        return;
+      } else if (s < HardCodedParameters.NB_PULSES) {
+        h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+        return;
+      } else {
+        return;
+      }
+    }
+    // si dans un virage en coude
+    if ((n == HardCodedParameters.NB_PULSES ^ s == HardCodedParameters.NB_PULSES) && (e == HardCodedParameters.NB_PULSES ^ o == HardCodedParameters.NB_PULSES)) {
+      switch (n) {
+        case HardCodedParameters.NB_PULSES:
+          switch (e) {
+            case HardCodedParameters.NB_PULSES:
+              if (h.getVitesseX() == 0) {
+                h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              } else {
+                h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                return;
+              }
+              //break;
+            default:
+              if (h.getVitesseX() == 0) {
+                h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              } else {
+                h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                return;
+              }
+              //break;
+          }
+          //break;
+        default:
+          switch (e) {
+            case HardCodedParameters.NB_PULSES:
+              if (h.getVitesseX() == 0) {
+                h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              } else {
+                h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                return;
+              }
+              //break;
+            default:
+              if (h.getVitesseX() == 0) {
+                h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              } else {
+                h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                return;
+              }
+              //break;
+          }
+          //break;
+      }
+    }
+    // si dans un virage en T (hostile dans le grand trait du T)
+    if (h.getVitesseY() == 0 && h.getVitesseX() > 0 && e < HardCodedParameters.NB_PULSES && o == HardCodedParameters.NB_PULSES && n == HardCodedParameters.NB_PULSES && s == HardCodedParameters.NB_PULSES) {
+      h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+      return;
+    }
+    if (h.getVitesseY() == 0 && h.getVitesseX() < 0 && o < HardCodedParameters.NB_PULSES && e == HardCodedParameters.NB_PULSES && n == HardCodedParameters.NB_PULSES && s == HardCodedParameters.NB_PULSES) {
+      h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+      return;
+    }
+    if (h.getVitesseY() > 0 && h.getVitesseX() == 0 && o == HardCodedParameters.NB_PULSES && e == HardCodedParameters.NB_PULSES && n == HardCodedParameters.NB_PULSES && s < HardCodedParameters.NB_PULSES) {
+      h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+      return;
+    }
+    if (h.getVitesseY() < 0 && h.getVitesseX() == 0 && o == HardCodedParameters.NB_PULSES && e == HardCodedParameters.NB_PULSES && n < HardCodedParameters.NB_PULSES && s == HardCodedParameters.NB_PULSES) {
+      h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+      return;
+    }
+  }
+
+ /* public void iaNavigation(HostileService h) {
+    boolean n = pulse_nord(h) < 2;
+    boolean s = pulse_sud(h) < 2;
+    boolean e = pulse_est(h) < 2;
+    boolean o = pulse_ouest(h) < 2;
+
+    //System.out.println("n=" + n + " s=" + s + " e=" + e + " o=" + o);
+
+    //h.setVitesse(0,0);
+    if (h.getAcceleration().x == 0 && h.getAcceleration().y == -1 && n) {
+      if (!s) h.setAcceleration(0, 1);
+      else if (!e) h.setAcceleration(1, 0);
+      else if (!o) h.setAcceleration(-1, 0);
+    }
+
+    if (h.getAcceleration().x == 0 && h.getAcceleration().y == 1 && s) {
+      if (!n) h.setAcceleration(0, -1);
+      else if (!e) h.setAcceleration(1, 0);
+      else if (!o) h.setAcceleration(-1, 0);
+    }
+
+    if (h.getAcceleration().x == 1 && h.getAcceleration().y == 0 && e) {
+      if (!s) h.setAcceleration(0, 1);
+      else if (!n) h.setAcceleration(0, -1);
+      else if (!o) h.setAcceleration(-1, 0);
+    }
+
+    if (h.getAcceleration().x == -1 && h.getAcceleration().y == 0 && n) {
+      if (!s) h.setAcceleration(0, 1);
+      else if (!e) h.setAcceleration(1, 0);
+      else if (!n) h.setAcceleration(0, -1);
+    }
+  }
+*/
+  private int pulse_nord(HostileService h) {
+    int free_space = 0;
+    HostileService hostile_translated = new Hostile(new Position(h.getPositionX(),h.getPositionY()),new Vitesse(0,0),new Acceleration(0,0),"");
+    for (double i = HardCodedParameters.PULSE_STEP; i < (HardCodedParameters.NB_PULSES + 0.95)*HardCodedParameters.PULSE_STEP; i += HardCodedParameters.PULSE_STEP) {
+      hostile_translated.setPosition(hostile_translated.getPositionX(),hostile_translated.getPositionY() - i);
+      for (BatimentService b : data.getBatiments()) {
+        if (collisionBetweenPositionnables(hostile_translated, b)) {
+          return free_space;
+        }
+      }
+      free_space++;
+    }
+    return free_space;
+  }
+
+  private int pulse_sud(HostileService h) {
+    int free_space = 0;
+    HostileService hostile_translated = new Hostile(new Position(h.getPositionX(),h.getPositionY()),new Vitesse(0,0),new Acceleration(0,0),"");
+    for (double i = HardCodedParameters.PULSE_STEP; i < (HardCodedParameters.NB_PULSES + 0.95)*HardCodedParameters.PULSE_STEP; i += HardCodedParameters.PULSE_STEP) {
+      hostile_translated.setPosition(hostile_translated.getPositionX(),hostile_translated.getPositionY() + i);
+      for (BatimentService b : data.getBatiments()) {
+        if (collisionBetweenPositionnables(hostile_translated, b)) {
+          return free_space;
+        }
+      }
+      free_space++;
+    }
+    return free_space;
+  }
+
+  private int pulse_est(HostileService h) {
+    int free_space = 0;
+    HostileService hostile_translated = new Hostile(new Position(h.getPositionX(),h.getPositionY()),new Vitesse(0,0),new Acceleration(0,0),"");
+    for (double i = HardCodedParameters.PULSE_STEP; i < (HardCodedParameters.NB_PULSES + 0.95)*HardCodedParameters.PULSE_STEP; i += HardCodedParameters.PULSE_STEP) {
+      hostile_translated.setPosition(hostile_translated.getPositionX() + i,hostile_translated.getPositionY());
+      for (BatimentService b : data.getBatiments()) {
+        if (collisionBetweenPositionnables(hostile_translated, b)) {
+          return free_space;
+        }
+      }
+      free_space++;
+    }
+    return free_space;
+  }
+
+  private int pulse_ouest(HostileService h) {
+    int free_space = 0;
+    HostileService hostile_translated = new Hostile(new Position(h.getPositionX(),h.getPositionY()),new Vitesse(0,0),new Acceleration(0,0),"");
+    for (double i = HardCodedParameters.PULSE_STEP; i < (HardCodedParameters.NB_PULSES + 0.95)*HardCodedParameters.PULSE_STEP; i += HardCodedParameters.PULSE_STEP) {
+      hostile_translated.setPosition(hostile_translated.getPositionX() - i,hostile_translated.getPositionY());
+      for (BatimentService b : data.getBatiments()) {
+        if (collisionBetweenPositionnables(hostile_translated, b)) {
+          return free_space;
+        }
+      }
+      free_space++;
+    }
+    return free_space;
   }
 
   private void spawnHostiles(){

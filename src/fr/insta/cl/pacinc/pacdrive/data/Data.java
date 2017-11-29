@@ -47,9 +47,36 @@ public class Data implements DataService {
 			log[i] = "";
 		}
 
-		kits.add(new Kit(new Position(12, 58)));
-		mines.add(new Mine(new Position(37, 125)));
-		pieces.add(new Piece(new Position(127, 10)));
+		for (double i = 0; i < (6 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
+			for (double j = 0; j < (3 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
+				if (i == 3*HardCodedParameters.BATIMENT_SIZE_X || j == 2*HardCodedParameters.BATIMENT_SIZE_X) {
+					;
+				} else {
+					batiments.add(new Batiment(new Position(150 + i, 150 + j)));
+				}
+			}
+		}
+
+		double x = 90;
+		double y = 90;
+		for (double i = 0; i < (10 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
+			for (double j = 0; j < (7 + 0.95) * HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
+				if (i == 0 /*|| i == 5*HardCodedParameters.BATIMENT_SIZE_X */|| i == 10*HardCodedParameters.BATIMENT_SIZE_X) {
+					batiments.add(new Batiment(new Position(x + i, y + j)));
+				} else if (j == 0 || j == 7*HardCodedParameters.BATIMENT_SIZE_X) {
+					batiments.add(new Batiment(new Position(x + i, y + j)));
+				}
+			}
+		}
+
+		hostiles.add(new Hostile(new Position(215,215), new Vitesse(-10, 0), new Acceleration(0,0) , "IA" ));
+		hostiles.add(new Hostile(new Position(285,215), new Vitesse(10, 0), new Acceleration(0,0) , "IA" ));
+
+		hostiles.add(new Hostile(new Position(245,145), new Vitesse(0, -10), new Acceleration(0,0) , "IA" ));
+		hostiles.add(new Hostile(new Position(245,175), new Vitesse(0, 10), new Acceleration(0,0) , "IA" ));
+//		kits.add(new Kit(new Position(12, 58)));
+//		mines.add(new Mine(new Position(37, 125)));
+//		pieces.add(new Piece(new Position(127, 10)));
 
 		//A AJOUTER
 //		for(double j = 10; j < HardCodedParameters.defaultHeight; j+=70) {

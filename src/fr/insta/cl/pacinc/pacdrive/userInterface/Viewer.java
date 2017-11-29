@@ -117,7 +117,7 @@ public class Viewer implements ViewerService, RequireReadService{
 
       generateGamePanel(panel);
       generateStatPanel(panel);
-      generateConsolePanel(panel) ;
+      //generateConsolePanel(panel) ;
 
 
     return panel;

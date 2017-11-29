@@ -13,7 +13,7 @@ public class HardCodedParameters {
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";
   public static final int defaultWidth = 800, defaultHeight = 600,
-                          heroesStartX = 80, heroesStartY = 200, heroesWidth=60, heroesHeight=90, heroesStep = 10,
+                          heroesStartX = 500, heroesStartY = 500, heroesWidth=60, heroesHeight=90, heroesStep = 10,
                           phantomWidth = 30, phantomHeight = 30, phantomStep = 10;
   public static final int enginePaceMillis = 100,
                           spriteSlowDownRate = 7;
@@ -57,12 +57,12 @@ public class HardCodedParameters {
   public static final int HERO_SIZE_Y = 80;
 
   //hostile
-  public static final int HOSTILE_SIZE_X = 80;
-  public static final int HOSTILE_SIZE_Y = 80;
+  public static final int HOSTILE_SIZE_X = 20;
+  public static final int HOSTILE_SIZE_Y = 20;
 
   //batiment
-  public static final int BATIMENT_SIZE_X = 80;
-  public static final int BATIMENT_SIZE_Y = 80;
+  public static final int BATIMENT_SIZE_X = 30;
+  public static final int BATIMENT_SIZE_Y = 30;
 
   //mine
   public static final int MINE_SIZE_X = 80;
@@ -86,7 +86,12 @@ public class HardCodedParameters {
   public static final double AREA_GAME_X_END = OFFSET_X + 0.68*defaultWidth;
   public static final double AREA_GAME_Y_END = OFFSET_Y + 0.8*defaultHeight;
 
+  //IA déplacement hostiles
 
+  public static final int NB_PULSES = 3;
+  public static final double PULSE_STEP = 1;
+  public static final double VITESSE_MAX_HOSTILE = 10;
+  public static final int TIMER_HOSTILE = 5;
 
 
 }
