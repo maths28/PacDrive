@@ -12,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.effect.Lighting;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -117,7 +118,7 @@ public class Viewer implements ViewerService, RequireReadService{
 
       generateGamePanel(panel);
       generateStatPanel(panel);
-      //generateConsolePanel(panel) ;
+      generateConsolePanel(panel) ;
 
 
     return panel;
@@ -230,27 +231,38 @@ public class Viewer implements ViewerService, RequireReadService{
 
     private void generateConsolePanel(Group panel){
 
-        Rectangle console = new Rectangle(0.30*shrink*defaultMainWidth,
-                0.80*shrink*defaultMainHeight);
+/*        Rectangle console = new Rectangle(0.30*shrink*defaultMainWidth,
+                0.80*shrink*defaultMainHeight);*/
+
+        Rectangle console = new Rectangle(shrink*(HardCodedParameters.CONSOLE_X_END-HardCodedParameters.CONSOLE_X_START),
+                shrink*(HardCodedParameters.CONSOLE_Y_END-HardCodedParameters.CONSOLE_Y_START));
+
+
+        ImagePattern FondConsole = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/FondConsole.jpg"));
 
         console.setFill(Color.rgb(167,167,167));
         console.setStroke(Color.DIMGRAY);
         console.setStrokeWidth(.01*shrink*defaultMainHeight);
         console.setArcWidth(.04*shrink*defaultMainHeight);
         console.setArcHeight(.04*shrink*defaultMainHeight);
-        console.setTranslateX(0.70*shrink*defaultMainWidth);
-        console.setTranslateY(5*shrink);
+        console.setTranslateX(HardCodedParameters.CONSOLE_X_START*shrink);
+        console.setTranslateY(HardCodedParameters.CONSOLE_Y_START*shrink);
+        console.setFill(FondConsole);
         panel.getChildren().add(console);
 
-        Text textConsole = new Text(1.05*shrink*defaultMainHeight, -0.69*shrink*defaultMainWidth+shrink*defaultMainHeight, "Console");
-        textConsole.setFont(new Font(.05*shrink*defaultMainHeight));
+
+
+        Text textConsole = new Text((HardCodedParameters.CONSOLE_X_START+HardCodedParameters.CONSOLE_X_END*0.05)*shrink, (HardCodedParameters.CONSOLE_Y_START+HardCodedParameters.CONSOLE_Y_END*0.10)*shrink, "Console");
+        textConsole.setFont(new Font(HardCodedParameters.SIZE_TITRE_CONSOLE * shrink));
+        textConsole.setFill(Color.WHITE);
         panel.getChildren().add(textConsole);
 
-        Double positionY = 0.15;
+        Double positionY = 0.20;
 
         for(int i = 0; i<HardCodedParameters.LOG_MESSAGES_MAX; i++){
-            Text textDonneesConsole = new Text(0.95 * shrink * defaultMainHeight, positionY * shrink * defaultMainHeight, data.getLog()[i]);
-            textDonneesConsole.setFont(new Font(.03 * shrink * defaultMainHeight));
+            Text textDonneesConsole = new Text((HardCodedParameters.CONSOLE_X_START + HardCodedParameters.CONSOLE_X_END*0.01)*shrink, (HardCodedParameters.CONSOLE_Y_START+HardCodedParameters.CONSOLE_Y_END*positionY)*shrink, data.getLog()[i]);
+            textDonneesConsole.setFont(new Font(HardCodedParameters.SIZE_TEXT_CONSOLE * shrink));
+            textDonneesConsole.setFill(Color.WHITE);
             panel.getChildren().add(textDonneesConsole);
             positionY = positionY + 0.05;
         }
@@ -258,26 +270,37 @@ public class Viewer implements ViewerService, RequireReadService{
     }
 
     private void generateStatPanel(Group panel){
-        Text greets = new Text(0.4*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
-                -0.07*shrink*defaultMainWidth+shrink*defaultMainHeight,
-                "Round 1");
-        greets.setFont(new Font(.05*shrink*defaultMainHeight));
+
+        Rectangle Stats = new Rectangle(shrink*(HardCodedParameters.STATS_X_END-HardCodedParameters.STATS_X_START),
+                shrink*(HardCodedParameters.STATS_Y_END-HardCodedParameters.STATS_Y_START));
+
+        Stats.setFill(Color.rgb(105, 114, 167));
+        Stats.setStroke(Color.DIMGRAY);
+        Stats.setStrokeWidth(.01*shrink*defaultMainHeight);
+        Stats.setArcWidth(.04*shrink*defaultMainHeight);
+        Stats.setArcHeight(.04*shrink*defaultMainHeight);
+        Stats.setTranslateX(HardCodedParameters.STATS_X_START*shrink);
+        Stats.setTranslateY(HardCodedParameters.STATS_Y_START*shrink);
+        panel.getChildren().add(Stats);
+
+        Text greets = new Text((HardCodedParameters.STATS_X_START+HardCodedParameters.STATS_X_END*0.80)*shrink, ((HardCodedParameters.STATS_Y_START+HardCodedParameters.STATS_Y_END*0.10)*shrink),
+                "Round : 1");
+        greets.setFont(new Font(HardCodedParameters.SIZE_TEXT_STATS*shrink));
         panel.getChildren().add(greets);
-        Text score = new Text(-0.1*shrink*defaultMainHeight+.5*shrink*defaultMainWidth,
-                -0.07*shrink*defaultMainWidth+shrink*defaultMainHeight,
+        Text score = new Text((HardCodedParameters.STATS_X_START+HardCodedParameters.STATS_X_END*0.45)*shrink, ((HardCodedParameters.STATS_Y_START+HardCodedParameters.STATS_Y_END*0.06)*shrink),
                 "Score: "+data.getScore());
-        score.setFont(new Font(.05*shrink*defaultMainHeight));
+        score.setFont(new Font(HardCodedParameters.SIZE_TEXT_STATS*shrink));
         panel.getChildren().add(score);
 
-        Text textLife = new Text(0.2*shrink*defaultMainHeight, -0.07*shrink*defaultMainWidth+shrink*defaultMainHeight, "Vie : " + data.getJoueur().getHealth());
-        textLife.setFont(new Font(.05*shrink*defaultMainHeight));
+        Text textLife = new Text((HardCodedParameters.STATS_X_START+HardCodedParameters.STATS_X_END*0.05)*shrink, ((HardCodedParameters.STATS_Y_START+HardCodedParameters.STATS_Y_END*0.10)*shrink), "Vie : " + data.getJoueur().getHealth());
+        textLife.setFont(new Font(HardCodedParameters.SIZE_TEXT_STATS*shrink));
         panel.getChildren().add(textLife);
 
         DecimalFormat df = new DecimalFormat() ;
         df.setMaximumFractionDigits (0);
 
-        Text textPositionJoueur = new Text(0.5*shrink*defaultMainHeight, -0.02*shrink*defaultMainWidth+shrink*defaultMainHeight, "Position : " + df.format(data.getJoueur().getPosition().x) + " : " + df.format(data.getJoueur().getPosition().y));
-        textPositionJoueur.setFont(new Font(.05*shrink*defaultMainHeight));
+        Text textPositionJoueur = new Text((HardCodedParameters.STATS_X_START+HardCodedParameters.STATS_X_END*0.35)*shrink, ((HardCodedParameters.STATS_Y_START+HardCodedParameters.STATS_Y_END*0.13)*shrink), "Position : " + df.format(data.getJoueur().getPosition().x) + " : " + df.format(data.getJoueur().getPosition().y));
+        textPositionJoueur.setFont(new Font(HardCodedParameters.SIZE_TEXT_STATS*shrink));
         panel.getChildren().add(textPositionJoueur);
     }
 

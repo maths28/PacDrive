@@ -93,5 +93,23 @@ public class HardCodedParameters {
   public static final double VITESSE_MAX_HOSTILE = 10;
   public static final int TIMER_HOSTILE = 5;
 
+  //Stats
+  public static final double STATS_X_START = OFFSET_X;
+  public static final double STATS_Y_START = .825*defaultHeight;
+  public static final double STATS_X_END = STATS_X_START + 0.99*defaultWidth;
+  public static final double STATS_Y_END = STATS_Y_START + 0.16*defaultHeight;
+
+  public static final Double SIZE_TEXT_STATS = 30.0;
+
+
+  //Console
+  public static final double CONSOLE_X_START = .93*defaultHeight;
+  public static final double CONSOLE_Y_START = OFFSET_Y;
+  public static final double CONSOLE_X_END = CONSOLE_X_START + 0.299*defaultWidth;
+  public static final double CONSOLE_Y_END = CONSOLE_Y_START + 0.80*defaultHeight;
+
+  public static final Double SIZE_TITRE_CONSOLE = 40.0;
+  public static final Double SIZE_TEXT_CONSOLE = 18.0;
+
 
 }
