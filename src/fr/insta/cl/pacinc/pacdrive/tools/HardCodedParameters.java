@@ -14,11 +14,11 @@ public class HardCodedParameters {
   //---HARD-CODED-PARAMETERS---//
   public static String defaultParamFileName = "in.parameters";
   public static final int defaultWidth = 800, defaultHeight = 600,
-                          heroesStartX = 500, heroesStartY = 500, heroesWidth=60, heroesHeight=90, heroesStep = 10,
+                          heroesStartX = 15*HardCodedParameters.BATIMENT_SIZE_X + HardCodedParameters.BATIMENT_SIZE_X/2, heroesStartY = 1*HardCodedParameters.BATIMENT_SIZE_X + HardCodedParameters.BATIMENT_SIZE_X/2, heroesWidth=60, heroesHeight=90, heroesStep = 5,
                           phantomWidth = 30, phantomHeight = 30, phantomStep = 10;
   public static final int enginePaceMillis = 100,
                           spriteSlowDownRate = 7;
-  public static final double friction = 0.50;
+  public static final double friction = 0.1;
   public static final double resolutionShrinkFactor = 0.95,
                              userBarShrinkFactor = 0.25,
                              menuBarShrinkFactor = 0.5,
@@ -66,16 +66,16 @@ public class HardCodedParameters {
   public static final int BATIMENT_SIZE_Y = 30;
 
   //mine
-  public static final int MINE_SIZE_X = 35;
-  public static final int MINE_SIZE_Y = 35;
+  public static final int MINE_SIZE_X = 20;
+  public static final int MINE_SIZE_Y = 20;
 
   //kit
-  public static final int KIT_SIZE_X = 40;
-  public static final int KIT_SIZE_Y = 40;
+  public static final int KIT_SIZE_X = 20;
+  public static final int KIT_SIZE_Y = 20;
 
   //piece
-  public static final int PIECE_SIZE_X = 40;
-  public static final int PIECE_SIZE_Y = 40;
+  public static final int PIECE_SIZE_X = 20;
+  public static final int PIECE_SIZE_Y = 20;
 
   //Limite des zones
 
@@ -92,7 +92,7 @@ public class HardCodedParameters {
   public static final int NB_PULSES = 6;
   public static final double PULSE_STEP = 2;
   public static final double VITESSE_MAX_HOSTILE = 5;
-  public static final int TIMER_HOSTILE_CHANGEMENT_DIRECTION = 5;
+  public static final int TIMER_HOSTILE_CHANGEMENT_DIRECTION = 4;
   public static final int TIMER_HOSTILE_DETECTION_VIRAGE = 1;
 
   //Stats

@@ -227,10 +227,10 @@ switch(h.getComportement()){
     // si dans une rue horizontale et déplacement horizontal
     if (n < HardCodedParameters.NB_PULSES && s < HardCodedParameters.NB_PULSES && (int) h.getVitesseY() == 0) {
       h.setFreeToMove(false);
-      if (e == 0) {
+      if (e <= 3) {
         h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
         return;
-      } else if (o == 0) {
+      } else if (o <= 3) {
         h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
         return;
       } else {
@@ -240,10 +240,10 @@ switch(h.getComportement()){
       // si dans une rue verticale et déplacement vertical
       if (e < HardCodedParameters.NB_PULSES && o < HardCodedParameters.NB_PULSES && (int) h.getVitesseX() == 0) {
         h.setFreeToMove(false);
-        if (n == 0) {
+        if (n <= 3) {
           h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
           return;
-        } else if (s == 0) {
+        } else if (s <= 3) {
           h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
           return;
         } else {

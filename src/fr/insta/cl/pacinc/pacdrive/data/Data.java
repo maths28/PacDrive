@@ -7,9 +7,7 @@ import fr.insta.cl.pacinc.pacdrive.data.model.Batiment;
 import fr.insta.cl.pacinc.pacdrive.data.model.Hostile;
 import fr.insta.cl.pacinc.pacdrive.data.model.Joueur;
 import fr.insta.cl.pacinc.pacdrive.data.model.Kit;
-import fr.insta.cl.pacinc.pacdrive.data.model.Mine;
 import fr.insta.cl.pacinc.pacdrive.data.model.Piece;
-import fr.insta.cl.pacinc.pacdrive.data.model.Terrain;
 import fr.insta.cl.pacinc.pacdrive.specifications.*;
 import fr.insta.cl.pacinc.pacdrive.tools.*;
 
@@ -23,7 +21,6 @@ public class Data implements DataService {
 	private List<PieceService> pieces ;
 	private String[] log;
 	private Joueur joueur ;
-	private Terrain terrain ;
 	private int life ;
 	
 	private Sound.SOUND sound;
@@ -41,45 +38,63 @@ public class Data implements DataService {
 		pieces = new ArrayList<PieceService>() ;
 		joueur = new Joueur(new Position(HardCodedParameters.heroesStartX, HardCodedParameters.heroesStartY));
 		joueur.setHealth(HardCodedParameters.INIT_STARTING_HP);
-		terrain = new Terrain() ;
 
 		log = new String[HardCodedParameters.LOG_MESSAGES_MAX];
 		for (int i=0; i < HardCodedParameters.LOG_MESSAGES_MAX; i++) {
 			log[i] = "";
 		}
 
-		for (double i = 0; i < (6 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
-			for (double j = 0; j < (3 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
-				if (i == 3*HardCodedParameters.BATIMENT_SIZE_X || j == 2*HardCodedParameters.BATIMENT_SIZE_X) {
+		double x = -1;
+		double y = -3;
+		for (double i = 0; i < (17 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
+			for (double j = 0; j < (15 + 0.95) * HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
+				if (i == 0 || i == 17*HardCodedParameters.BATIMENT_SIZE_X) {
+					batiments.add(new Batiment(new Position(x + i, y + j)));
+				} else if (j == 0 || j == 15*HardCodedParameters.BATIMENT_SIZE_X) {
+					batiments.add(new Batiment(new Position(x + i, y + j)));
+				}
+			}
+		}
+
+		double x_abs = HardCodedParameters.BATIMENT_SIZE_X;
+		double y_ord =	HardCodedParameters.BATIMENT_SIZE_X;
+		batiments.add(new Batiment(new Position(x + 10*x_abs, y + 4*y_ord)));
+		batiments.add(new Batiment(new Position(x + 4*x_abs, y + 7*y_ord)));
+		batiments.add(new Batiment(new Position(x + 13*x_abs, y + 7*y_ord)));
+
+
+		double x2 = x + 2*HardCodedParameters.BATIMENT_SIZE_X;
+		double y2 = y + 2*HardCodedParameters.BATIMENT_SIZE_X;
+		for (double i = 0; i < (13 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
+			for (double j = 0; j < (11 + 0.95) * HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
+				if (i == 2*HardCodedParameters.BATIMENT_SIZE_X
+						|| i == 5*HardCodedParameters.BATIMENT_SIZE_X
+						|| i == 11*HardCodedParameters.BATIMENT_SIZE_X
+						|| j == 2*HardCodedParameters.BATIMENT_SIZE_X
+						|| j == 8*HardCodedParameters.BATIMENT_SIZE_X
+						) {
 					;
 				} else {
-					batiments.add(new Batiment(new Position(150 + i, 150 + j)));
+					batiments.add(new Batiment(new Position(x2 + i, y2 + j)));
 				}
 			}
 		}
 
-		double x = 90;
-		double y = 90;
-		for (double i = 0; i < (10 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
-			for (double j = 0; j < (7 + 0.95) * HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
-				if (i == 0 /*|| i == 5*HardCodedParameters.BATIMENT_SIZE_X */|| i == 10*HardCodedParameters.BATIMENT_SIZE_X) {
-					batiments.add(new Batiment(new Position(x + i, y + j)));
-				} else if (j == 0 || j == 7*HardCodedParameters.BATIMENT_SIZE_X) {
-					batiments.add(new Batiment(new Position(x + i, y + j)));
-				}
-			}
-		}
+		hostiles.add(new Hostile(new Position(2*x_abs + x_abs / 2.0, y_ord + y_ord / 2.0), new Vitesse(5, 0), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(10*x_abs + x_abs / 2.0, y_ord + y_ord / 2.0), new Vitesse(5, 0), new Acceleration(0, 0), "avancee1"));
 
-		hostiles.add(new Hostile(new Position(215,215), new Vitesse(-5, 0), new Acceleration(0,0) , "avancee1" ));
-		hostiles.add(new Hostile(new Position(285,215), new Vitesse(5, 0), new Acceleration(0,0) , "avancee1" ));
+		hostiles.add(new Hostile(new Position(2*x_abs + x_abs / 2.0, 4*y_ord + y_ord / 2.0), new Vitesse(-5, 0), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(10*x_abs + x_abs / 2.0, 10*y_ord + y_ord / 2.0), new Vitesse(-5, 0), new Acceleration(0, 0), "avancee1"));
 
-		hostiles.add(new Hostile(new Position(245,145), new Vitesse(0, -5), new Acceleration(0,0) , "avancee1" ));
-		hostiles.add(new Hostile(new Position(245,175), new Vitesse(0, 5), new Acceleration(0,0) , "avancee1" ));
-		kits.add(new Kit(new Position(12, 58)));
-		mines.add(new Mine(new Position(37, 125)));
-		pieces.add(new Piece(new Position(127, 10)));
+		hostiles.add(new Hostile(new Position(x_abs + x_abs / 2.0, 2*y_ord + y_ord / 2.0), new Vitesse(0, 5), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x_abs + x_abs / 2.0, 7*y_ord + y_ord / 2.0), new Vitesse(0, 5), new Acceleration(0, 0), "avancee1"));
 
+		hostiles.add(new Hostile(new Position(7*x_abs + x_abs / 2.0, 8*y_ord + y_ord / 2.0), new Vitesse(0, -5), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(7*x_abs + x_abs / 2.0, 12*y_ord + y_ord / 2.0), new Vitesse(0, -5), new Acceleration(0, 0), "avancee1"));
 
+		//kits.add(new Kit(new Position(12, 58)));
+
+		//pieces.add(new Piece(new Position(127, 10)));
 
 	}
 
@@ -135,14 +150,6 @@ public class Data implements DataService {
 
 	public void setJoueur(Joueur joueur) {
 		this.joueur = joueur;
-	}
-
-	public Terrain getTerrain() {
-		return terrain;
-	}
-
-	public void setTerrain(Terrain terrain) {
-		this.terrain = terrain;
 	}
 
 	public int getStepNumber() {
