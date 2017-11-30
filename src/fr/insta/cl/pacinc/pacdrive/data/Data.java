@@ -80,21 +80,83 @@ public class Data implements DataService {
 			}
 		}
 
-		hostiles.add(new Hostile(new Position(2*x_abs + x_abs / 2.0, y_ord + y_ord / 2.0), new Vitesse(5, 0), new Acceleration(0, 0), "avancee1"));
-		hostiles.add(new Hostile(new Position(10*x_abs + x_abs / 2.0, y_ord + y_ord / 2.0), new Vitesse(5, 0), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + 2*x_abs + x_abs / 2.0, y + y_ord + y_ord / 2.0), new Vitesse(5, 0), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + 10*x_abs + x_abs / 2.0, y + y_ord + y_ord / 2.0), new Vitesse(5, 0), new Acceleration(0, 0), "avancee1"));
 
-		hostiles.add(new Hostile(new Position(2*x_abs + x_abs / 2.0, 4*y_ord + y_ord / 2.0), new Vitesse(-5, 0), new Acceleration(0, 0), "avancee1"));
-		hostiles.add(new Hostile(new Position(10*x_abs + x_abs / 2.0, 10*y_ord + y_ord / 2.0), new Vitesse(-5, 0), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + 2*x_abs + x_abs / 2.0, y + 4*y_ord + y_ord / 2.0), new Vitesse(-5, 0), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + 10*x_abs + x_abs / 2.0, y + 10*y_ord + y_ord / 2.0), new Vitesse(-5, 0), new Acceleration(0, 0), "avancee1"));
 
-		hostiles.add(new Hostile(new Position(x_abs + x_abs / 2.0, 2*y_ord + y_ord / 2.0), new Vitesse(0, 5), new Acceleration(0, 0), "avancee1"));
-		hostiles.add(new Hostile(new Position(x_abs + x_abs / 2.0, 7*y_ord + y_ord / 2.0), new Vitesse(0, 5), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + x_abs + x_abs / 2.0, y + 2*y_ord + y_ord / 2.0), new Vitesse(0, 5), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + x_abs + x_abs / 2.0, y + 7*y_ord + y_ord / 2.0), new Vitesse(0, 5), new Acceleration(0, 0), "avancee1"));
 
-		hostiles.add(new Hostile(new Position(7*x_abs + x_abs / 2.0, 8*y_ord + y_ord / 2.0), new Vitesse(0, -5), new Acceleration(0, 0), "avancee1"));
-		hostiles.add(new Hostile(new Position(7*x_abs + x_abs / 2.0, 12*y_ord + y_ord / 2.0), new Vitesse(0, -5), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + 7*x_abs + x_abs / 2.0, y + 8*y_ord + y_ord / 2.0), new Vitesse(0, -5), new Acceleration(0, 0), "avancee1"));
+		hostiles.add(new Hostile(new Position(x + 7*x_abs + x_abs / 2.0, y + 12*y_ord + y_ord / 2.0), new Vitesse(0, -5), new Acceleration(0, 0), "avancee1"));
 
-		//kits.add(new Kit(new Position(12, 58)));
+		kits.add(new Kit(new Position(x + x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		kits.add(new Kit(new Position(x + 13*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		kits.add(new Kit(new Position(x + 7*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
 
-		//pieces.add(new Piece(new Position(127, 10)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 2*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 6*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 8*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 12*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 3*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 5*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 7*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 9*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 11*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 13*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 15*x_abs + x_abs / 4.0, y + 14*y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + 13*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + 11*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + 9*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + 7*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + 5*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + 3*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 16*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 14*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 12*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 10*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 8*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 6*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 4*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 2*x_abs + x_abs / 4.0, y + y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 4*x_abs + x_abs / 4.0, y + 3*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 4*x_abs + x_abs / 4.0, y + 5*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 4*x_abs + x_abs / 4.0, y + 9*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 4*x_abs + x_abs / 4.0, y + 11*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 4*x_abs + x_abs / 4.0, y + 13*y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 7*x_abs + x_abs / 4.0, y + 2*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 7*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 7*x_abs + x_abs / 4.0, y + 6*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 7*x_abs + x_abs / 4.0, y + 8*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 7*x_abs + x_abs / 4.0, y + 12*y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 13*x_abs + x_abs / 4.0, y + 2*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 13*x_abs + x_abs / 4.0, y + 6*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 13*x_abs + x_abs / 4.0, y + 8*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 13*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 13*x_abs + x_abs / 4.0, y + 12*y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 3*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 5*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 9*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 11*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 15*x_abs + x_abs / 4.0, y + 4*y_ord + y_ord / 4.0)));
+
+		pieces.add(new Piece(new Position(x + 3*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 5*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 9*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 11*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
+		pieces.add(new Piece(new Position(x + 15*x_abs + x_abs / 4.0, y + 10*y_ord + y_ord / 4.0)));
 
 	}
 
