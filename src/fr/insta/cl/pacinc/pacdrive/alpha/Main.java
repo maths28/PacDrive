@@ -6,6 +6,8 @@
  * ******************************************************/
 package fr.insta.cl.pacinc.pacdrive.alpha;
 
+import fr.insta.cl.pacinc.pacdrive.algorithm.IaAlgorithm;
+import fr.insta.cl.pacinc.pacdrive.specifications.AlgorithmService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -39,6 +41,7 @@ public class Main extends Application{
   private static EngineService engine;
   private static ViewerService viewer;
   private static AnimationTimer timer;
+  private static AlgorithmService iaAlgorithme;
 
   //---EXECUTABLE---//
   public static void main(String[] args) {
@@ -47,14 +50,20 @@ public class Main extends Application{
     data = new Data();
     engine = new Engine();
     viewer = new Viewer();
-
-    ((Engine)engine).bindDataService(data);
-    ((Viewer)viewer).bindReadService(data);
+    iaAlgorithme =new IaAlgorithm();
 
     data.init();
+
+    ((IaAlgorithm)iaAlgorithme).bindDataService(data);
+    ((IaAlgorithm)iaAlgorithme).bindEngineService(engine);
+    ((Engine)engine).bindDataService(data);
+    ((Engine)engine).bindAlgorithmService(iaAlgorithme);
+
+    ((Viewer)viewer).bindReadService(data);
+
     engine.init();
     viewer.init();
-    
+
     launch(args);
   }
 

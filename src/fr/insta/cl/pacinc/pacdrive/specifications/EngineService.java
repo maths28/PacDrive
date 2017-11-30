@@ -14,4 +14,5 @@ public interface EngineService{
   public void stop();
   public void setHeroesCommand(User.COMMAND c);
   public void releaseHeroesCommand(User.COMMAND c);
+  public boolean collisionBetweenPositionnables(PositionnableService object1, PositionnableService object2);
 }

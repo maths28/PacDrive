@@ -2,6 +2,7 @@ package fr.insta.cl.pacinc.pacdrive.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import fr.insta.cl.pacinc.pacdrive.data.model.Batiment;
 import fr.insta.cl.pacinc.pacdrive.data.model.Hostile;
@@ -20,7 +21,7 @@ public class Data implements DataService {
 	private List<MineService> mines ;
 	private List<PieceService> pieces ;
 	private String[] log;
-	private Joueur joueur ;
+	private JoueurService joueur ;
 	private int life ;
 	
 	private Sound.SOUND sound;
@@ -49,18 +50,18 @@ public class Data implements DataService {
 		for (double i = 0; i < (17 + 0.95)*HardCodedParameters.BATIMENT_SIZE_X; i += HardCodedParameters.BATIMENT_SIZE_X) {
 			for (double j = 0; j < (15 + 0.95) * HardCodedParameters.BATIMENT_SIZE_X; j += HardCodedParameters.BATIMENT_SIZE_X) {
 				if (i == 0 || i == 17*HardCodedParameters.BATIMENT_SIZE_X) {
-					batiments.add(new Batiment(new Position(x + i, y + j)));
+					batiments.add(new Batiment(new Position(x + i, y + j), ThreadLocalRandom.current().nextInt(0,5)));
 				} else if (j == 0 || j == 15*HardCodedParameters.BATIMENT_SIZE_X) {
-					batiments.add(new Batiment(new Position(x + i, y + j)));
+					batiments.add(new Batiment(new Position(x + i, y + j), ThreadLocalRandom.current().nextInt(0,5)));
 				}
 			}
 		}
 
 		double x_abs = HardCodedParameters.BATIMENT_SIZE_X;
 		double y_ord =	HardCodedParameters.BATIMENT_SIZE_X;
-		batiments.add(new Batiment(new Position(x + 10*x_abs, y + 4*y_ord)));
-		batiments.add(new Batiment(new Position(x + 4*x_abs, y + 7*y_ord)));
-		batiments.add(new Batiment(new Position(x + 13*x_abs, y + 7*y_ord)));
+		batiments.add(new Batiment(new Position(x + 10*x_abs, y + 4*y_ord), ThreadLocalRandom.current().nextInt(0,5)));
+		batiments.add(new Batiment(new Position(x + 4*x_abs, y + 7*y_ord), ThreadLocalRandom.current().nextInt(0,5)));
+		batiments.add(new Batiment(new Position(x + 13*x_abs, y + 7*y_ord), ThreadLocalRandom.current().nextInt(0,5)));
 
 
 		double x2 = x + 2*HardCodedParameters.BATIMENT_SIZE_X;
@@ -75,7 +76,7 @@ public class Data implements DataService {
 						) {
 					;
 				} else {
-					batiments.add(new Batiment(new Position(x2 + i, y2 + j)));
+					batiments.add(new Batiment(new Position(x2 + i, y2 + j), ThreadLocalRandom.current().nextInt(0,5)));
 				}
 			}
 		}
@@ -206,7 +207,7 @@ public class Data implements DataService {
 		this.pieces = pieces;
 	}
 
-	public Joueur getJoueur() {
+	public JoueurService getJoueur() {
 		return joueur;
 	}
 
@@ -233,7 +234,7 @@ public class Data implements DataService {
 
 	@Override
 	public Position getHeroesPosition() {
-		return joueur.position;
+		return joueur.getPosition();
 	}
 
 
@@ -272,6 +273,11 @@ public class Data implements DataService {
 	public void addScore(int score){ this.score+=score; }
 
 	@Override
+	public void setJoueur(JoueurService joueur) {
+		this.joueur = joueur ;
+	}
+
+	@Override
 	public void setSoundEffect(Sound.SOUND s) { sound=s; }
 
 	@Override
@@ -294,7 +300,7 @@ public class Data implements DataService {
 
 	@Override
 	public void setHeroesPosition(Position p) {
-		this.joueur.position = p ;
+		this.joueur.setPosition(p) ;
 
 	}
 

@@ -61,9 +61,22 @@ public class Viewer implements ViewerService, RequireReadService{
     private ImagePattern joueur_left = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/joueur/voiture_verte_left.png"));
     private ImagePattern joueur_right = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/joueur/voiture_verte_right.png"));
 
+        //batiment
+    private ImagePattern batiment1 = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/batiments/batiment_04.png"));
+    private ImagePattern batiment2 = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/batiments/batiment_04_A.png")) ;
+    private ImagePattern batiment3 = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/batiments/batiment_04_B.png")) ;
+    private ImagePattern batiment4 = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/batiments/batiment_04_C.png")) ;
+    private ImagePattern batiment5 = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/batiments/batiment_04_D.png")) ;
 
+    private List<ImagePattern> batimentsSprites = new ArrayList<ImagePattern>();
 
-    public Viewer(){}
+    public Viewer(){
+        batimentsSprites.add(batiment1);
+        batimentsSprites.add(batiment2);
+        batimentsSprites.add(batiment3);
+        batimentsSprites.add(batiment4);
+        batimentsSprites.add(batiment5);
+    }
   
   @Override
   public void bindReadService(ReadService service){
@@ -76,7 +89,7 @@ public class Viewer implements ViewerService, RequireReadService{
     yShrink=1;
     xModifier=0;
     yModifier=0;
-      
+
     
   }
 
@@ -140,7 +153,7 @@ public class Viewer implements ViewerService, RequireReadService{
           b=batiments.get(i);
 
           Rectangle batimentAvatar = new Rectangle(b.getLargeur()*shrink, b.getHauteur()*shrink);
-          batimentAvatar.setFill(Color.GREY);
+          batimentAvatar.setFill(batimentsSprites.get(b.getVariation()));
           batimentAvatar.setTranslateX(shrink*b.getPosition().x+shrink*xModifier);
           batimentAvatar.setTranslateY(shrink*b.getPosition().y+shrink*yModifier);
           panel.getChildren().add(batimentAvatar);
@@ -224,7 +237,7 @@ public class Viewer implements ViewerService, RequireReadService{
 
 
       //Joueur
-      Joueur j=data.getJoueur();
+      JoueurService j=data.getJoueur();
       Rectangle joueurAvatar = new Rectangle(j.getLargeur()*shrink, j.getHauteur()*shrink);
 
       joueurAvatar.setTranslateX(shrink*j.getPosition().x+shrink*xModifier);

@@ -33,7 +33,7 @@ public interface ReadService {
 
   public Sound.SOUND getSoundEffect();
 
-  public Joueur getJoueur();
+  public JoueurService getJoueur();
 
   public List<KitService> getKits();
 

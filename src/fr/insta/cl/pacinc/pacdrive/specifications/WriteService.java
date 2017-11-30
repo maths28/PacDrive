@@ -22,7 +22,7 @@ public interface WriteService {
   public void setHostiles(List<HostileService> hostiles);
   public void setSoundEffect(Sound.SOUND s);
   public void addScore(int score);
-  public void setJoueur(Joueur joueur);
+  public void setJoueur(JoueurService joueur);
 
   public void setKits(List<KitService> kits);
 
