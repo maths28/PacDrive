@@ -70,11 +70,11 @@ public class Data implements DataService {
 			}
 		}
 
-		hostiles.add(new Hostile(new Position(215,215), new Vitesse(-10, 0), new Acceleration(0,0) , "avancee1" ));
-		hostiles.add(new Hostile(new Position(285,215), new Vitesse(10, 0), new Acceleration(0,0) , "avancee1" ));
+		hostiles.add(new Hostile(new Position(215,215), new Vitesse(-5, 0), new Acceleration(0,0) , "avancee1" ));
+		hostiles.add(new Hostile(new Position(285,215), new Vitesse(5, 0), new Acceleration(0,0) , "avancee1" ));
 
-		hostiles.add(new Hostile(new Position(245,145), new Vitesse(0, -10), new Acceleration(0,0) , "avancee1" ));
-		hostiles.add(new Hostile(new Position(245,175), new Vitesse(0, 10), new Acceleration(0,0) , "avancee1" ));
+		hostiles.add(new Hostile(new Position(245,145), new Vitesse(0, -5), new Acceleration(0,0) , "avancee1" ));
+		hostiles.add(new Hostile(new Position(245,175), new Vitesse(0, 5), new Acceleration(0,0) , "avancee1" ));
 		kits.add(new Kit(new Position(12, 58)));
 		mines.add(new Mine(new Position(37, 125)));
 		pieces.add(new Piece(new Position(127, 10)));

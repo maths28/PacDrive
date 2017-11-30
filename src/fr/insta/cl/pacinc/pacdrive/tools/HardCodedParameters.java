@@ -54,8 +54,8 @@ public class HardCodedParameters {
   //Positionnables sizes
 
   //hero
-  public static final int HERO_SIZE_X = 70;
-  public static final int HERO_SIZE_Y = 30;
+  public static final int HERO_SIZE_X = 20;
+  public static final int HERO_SIZE_Y = 10;
 
   //hostile
   public static final int HOSTILE_SIZE_X = 20;
@@ -89,10 +89,11 @@ public class HardCodedParameters {
 
   //IA déplacement hostiles
 
-  public static final int NB_PULSES = 3;
-  public static final double PULSE_STEP = 1;
-  public static final double VITESSE_MAX_HOSTILE = 10;
-  public static final int TIMER_HOSTILE = 5;
+  public static final int NB_PULSES = 6;
+  public static final double PULSE_STEP = 2;
+  public static final double VITESSE_MAX_HOSTILE = 5;
+  public static final int TIMER_HOSTILE_CHANGEMENT_DIRECTION = 5;
+  public static final int TIMER_HOSTILE_DETECTION_VIRAGE = 1;
 
   //Stats
   public static final double STATS_X_START = OFFSET_X;

@@ -41,11 +41,13 @@ public class Viewer implements ViewerService, RequireReadService{
 
   //Sprites
         //UI
-  private ImagePattern FondConsole = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/FondConsole.jpg"));
+  private ImagePattern FondConsole = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/ui/FondConsole.jpg"));
 
         //positionnables
     private ImagePattern mine = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/positionnables/mine.png"));
     private ImagePattern kit_reparation = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/positionnables/kit_reparation.png"));
+    private ImagePattern piece = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/positionnables/money.png"));
+    private ImagePattern kit_reparation2 = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/positionnables/kit_reparation2.png"));
 
         //hostile
     private ImagePattern hostile_down = new ImagePattern(new Image("file:src/fr/insta/cl/pacinc/pacdrive/images/hostile/voiture_rouge_down.png"));
@@ -130,30 +132,60 @@ public class Viewer implements ViewerService, RequireReadService{
 
       panel.getChildren().add(map);
 
-      //Joueur
-      Joueur j=data.getJoueur();
-      Rectangle joueurAvatar = new Rectangle(j.getLargeur()*shrink, j.getHauteur()*shrink);
+      //batiment
+      List<BatimentService> batiments = data.getBatiments();
+      BatimentService b;
 
-      joueurAvatar.setTranslateX(shrink*j.getPosition().x+shrink*xModifier);
-      joueurAvatar.setTranslateY(shrink*j.getPosition().y+shrink*yModifier);
+      for (int i=0; i<batiments.size();i++){
+          b=batiments.get(i);
 
-      switch (j.getDirection()){
-          case "rigth" :
-              joueurAvatar.setFill(joueur_right);
-              break ;
-          case "left" :
-              joueurAvatar.setFill(joueur_left);
-              break ;
-          case "up" :
-              joueurAvatar.setFill(joueur_up);
-              break ;
-          default : //down
-              joueurAvatar.setFill(joueur_down);
-              break ;
+          Rectangle batimentAvatar = new Rectangle(b.getLargeur()*shrink, b.getHauteur()*shrink);
+          batimentAvatar.setFill(Color.GREY);
+          batimentAvatar.setTranslateX(shrink*b.getPosition().x+shrink*xModifier);
+          batimentAvatar.setTranslateY(shrink*b.getPosition().y+shrink*yModifier);
+          panel.getChildren().add(batimentAvatar);
       }
 
-      panel.getChildren().add(joueurAvatar);
+    //piece
+      List<PieceService> pieces = data.getPieces();
+      PieceService p;
 
+      for (int i=0; i<pieces.size();i++){
+          p=pieces.get(i);
+          Rectangle pieceAvatar = new Rectangle(p.getLargeur()*shrink, p.getHauteur()*shrink);
+          pieceAvatar.setFill(piece);
+          pieceAvatar.setTranslateX(shrink*p.getPosition().x+shrink*xModifier);
+          pieceAvatar.setTranslateY(shrink*p.getPosition().y+shrink*yModifier);
+          panel.getChildren().add(pieceAvatar);
+      }
+
+
+
+      //mine
+      List<MineService> mines = data.getMines();
+      MineService m;
+
+      for (int i=0; i<mines.size();i++){
+          m=mines.get(i);
+          Rectangle mineAvatar = new Rectangle(m.getLargeur()*shrink, m.getHauteur()*shrink);
+          mineAvatar.setFill(mine);
+          mineAvatar.setTranslateX(shrink*m.getPosition().x+shrink*xModifier);
+          mineAvatar.setTranslateY(shrink*m.getPosition().y+shrink*yModifier);
+          panel.getChildren().add(mineAvatar);
+      }
+
+      //kit
+      List<KitService> kits = data.getKits();
+      KitService k;
+
+      for (int i=0; i<kits.size();i++){
+          k=kits.get(i);
+          Rectangle kitAvatar = new Rectangle(k.getLargeur()*shrink, k.getHauteur()*shrink);
+          kitAvatar.setFill(kit_reparation);
+          kitAvatar.setTranslateX(shrink*k.getPosition().x+shrink*xModifier);
+          kitAvatar.setTranslateY(shrink*k.getPosition().y+shrink*yModifier);
+          panel.getChildren().add(kitAvatar);
+      }
 
       //hostile
       List<HostileService> hostiles = data.getHostiles();
@@ -165,7 +197,7 @@ public class Viewer implements ViewerService, RequireReadService{
 
 
           switch (h.getDirection()){
-              case "rigth" :
+              case "right" :
                   hostileAvatar.setFill(hostile_right);
                   break ;
               case "left" :
@@ -185,58 +217,36 @@ public class Viewer implements ViewerService, RequireReadService{
           panel.getChildren().add(hostileAvatar);
       }
 
-      //batiment
-      List<BatimentService> batiments = data.getBatiments();
-      BatimentService b;
 
-      for (int i=0; i<batiments.size();i++){
-          b=batiments.get(i);
 
-          Rectangle batimentAvatar = new Rectangle(b.getLargeur()*shrink, b.getHauteur()*shrink);
-          batimentAvatar.setFill(Color.GREY);
-          batimentAvatar.setTranslateX(shrink*b.getPosition().x+shrink*xModifier);
-          batimentAvatar.setTranslateY(shrink*b.getPosition().y+shrink*yModifier);
-          panel.getChildren().add(batimentAvatar);
+
+
+
+
+      //Joueur
+      Joueur j=data.getJoueur();
+      Rectangle joueurAvatar = new Rectangle(j.getLargeur()*shrink, j.getHauteur()*shrink);
+
+      joueurAvatar.setTranslateX(shrink*j.getPosition().x+shrink*xModifier);
+      joueurAvatar.setTranslateY(shrink*j.getPosition().y+shrink*yModifier);
+
+      switch (j.getDirection()){
+          case "right" :
+              joueurAvatar.setFill(joueur_right);
+              break ;
+          case "left" :
+              joueurAvatar.setFill(joueur_left);
+              break ;
+          case "up" :
+              joueurAvatar.setFill(joueur_up);
+              break ;
+          default : //down
+              joueurAvatar.setFill(joueur_down);
+              break ;
       }
 
-      //piece
-      List<PieceService> pieces = data.getPieces();
-      PieceService p;
+      panel.getChildren().add(joueurAvatar);
 
-      for (int i=0; i<pieces.size();i++){
-          p=pieces.get(i);
-          Rectangle pieceAvatar = new Rectangle(p.getLargeur()*shrink, p.getHauteur()*shrink);
-          pieceAvatar.setFill(Color.GOLD);
-          pieceAvatar.setTranslateX(shrink*p.getPosition().x+shrink*xModifier);
-          pieceAvatar.setTranslateY(shrink*p.getPosition().y+shrink*yModifier);
-          panel.getChildren().add(pieceAvatar);
-      }
-
-      //kit
-      List<KitService> kits = data.getKits();
-      KitService k;
-
-      for (int i=0; i<kits.size();i++){
-          k=kits.get(i);
-          Rectangle kitAvatar = new Rectangle(k.getLargeur()*shrink, k.getHauteur()*shrink);
-          kitAvatar.setFill(kit_reparation);
-          kitAvatar.setTranslateX(shrink*k.getPosition().x+shrink*xModifier);
-          kitAvatar.setTranslateY(shrink*k.getPosition().y+shrink*yModifier);
-          panel.getChildren().add(kitAvatar);
-      }
-
-      //mine
-      List<MineService> mines = data.getMines();
-      MineService m;
-
-      for (int i=0; i<mines.size();i++){
-          m=mines.get(i);
-          Rectangle mineAvatar = new Rectangle(m.getLargeur()*shrink, m.getHauteur()*shrink);
-          mineAvatar.setFill(mine);
-          mineAvatar.setTranslateX(shrink*m.getPosition().x+shrink*xModifier);
-          mineAvatar.setTranslateY(shrink*m.getPosition().y+shrink*yModifier);
-          panel.getChildren().add(mineAvatar);
-      }
 
   }
 

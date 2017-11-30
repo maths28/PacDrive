@@ -63,7 +63,12 @@ public class Engine implements EngineService, RequireDataService{
         updateSpeedHeroes();
         updateCommandHeroes();
         updatePositionHeroes();
-        //updateVitesseHostiles();
+
+        for(BatimentService b : data.getBatiments()){
+          if(collisionBetweenPositionnables(data.getJoueur(),b)){
+            collisionWithObstacle(data.getJoueur());
+          }
+        }
 
         List<HostileService> hostiles = new ArrayList<>();
         List<KitService> kits = new ArrayList<>();
@@ -76,9 +81,10 @@ public class Engine implements EngineService, RequireDataService{
 
         for (HostileService h : data.getHostiles()){
 
-          switch(h.getComportement()){
+switch(h.getComportement()){
             case "avancee1":
-              h.setTimer(h.getTimer() - 1);
+              h.setTimerDetectionVirage(h.getTimerDetectionVirage() - 1);
+              h.setTimerChangementDirection(h.getTimerChangementDirection() - 1);
               iaAvancee1(h);
               break ;
             case "avancee2":
@@ -210,101 +216,369 @@ public class Engine implements EngineService, RequireDataService{
   }
 
   private void iaAvancee1(HostileService h) {
+
+    if (h.getTimerDetectionVirage() != 0) { return; }
+
     int n = pulse_nord(h);
     int s = pulse_sud(h);
     int e = pulse_est(h);
     int o = pulse_ouest(h);
-    // si dans une rue horizontale
-    if (n < HardCodedParameters.NB_PULSES && s < HardCodedParameters.NB_PULSES) {
-      if (e < HardCodedParameters.NB_PULSES) {
+
+    // si dans une rue horizontale et déplacement horizontal
+    if (n < HardCodedParameters.NB_PULSES && s < HardCodedParameters.NB_PULSES && (int) h.getVitesseY() == 0) {
+      h.setFreeToMove(false);
+      if (e == 0) {
         h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
         return;
-      } else if (o < HardCodedParameters.NB_PULSES) {
+      } else if (o == 0) {
         h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
         return;
       } else {
         return;
       }
-    }
-    // si dans une rue verticale
-    if (e < HardCodedParameters.NB_PULSES && o < HardCodedParameters.NB_PULSES) {
-      if (n < HardCodedParameters.NB_PULSES) {
-        h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
-        return;
-      } else if (s < HardCodedParameters.NB_PULSES) {
-        h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
-        return;
+    } else
+      // si dans une rue verticale et déplacement vertical
+      if (e < HardCodedParameters.NB_PULSES && o < HardCodedParameters.NB_PULSES && (int) h.getVitesseX() == 0) {
+        h.setFreeToMove(false);
+        if (n == 0) {
+          h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+          return;
+        } else if (s == 0) {
+          h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+          return;
+        } else {
+          return;
+        }
       } else {
-        return;
-      }
-    }
-    // si dans un virage en coude
-    if ((n == HardCodedParameters.NB_PULSES ^ s == HardCodedParameters.NB_PULSES) && (e == HardCodedParameters.NB_PULSES ^ o == HardCodedParameters.NB_PULSES)) {
-      switch (n) {
-        case HardCodedParameters.NB_PULSES:
-          switch (e) {
-            case HardCodedParameters.NB_PULSES:
-              if (h.getVitesseX() == 0) {
-                h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
-                return;
+        // si dans un virage ou embranchement en T ou en X
+        if (!h.getFreeToMove()) {
+          h.setFreeToMove(true);
+          h.setTimerDetectionVirage(HardCodedParameters.TIMER_HOSTILE_DETECTION_VIRAGE);
+          return;
+        }
+
+        if (h.getTimerChangementDirection() != 0) { return; }
+        h.setTimerChangementDirection(HardCodedParameters.TIMER_HOSTILE_CHANGEMENT_DIRECTION);
+
+        if (h.getVitesseX() > 0 && (int) h.getVitesseY() == 0) {
+          if (n == HardCodedParameters.NB_PULSES) {
+            if (e == HardCodedParameters.NB_PULSES) {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // n , e et s disponibles
+                int dice = gen.nextInt(3);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 2:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
               } else {
+                // n et e disponibles ; s indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              }
+            } else {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // n et s disponibles ; e indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
+              } else {
+                // n disponible ; s et e indisponibles
                 h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
                 return;
               }
-              //break;
-            default:
-              if (h.getVitesseX() == 0) {
-                h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+            }
+          } else {
+            if (e == HardCodedParameters.NB_PULSES) {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // e et s disponibles ; n indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
+              } else {
+                // e disponible ; n et s indisponibles
+                // cas jamais atteint
+                return;
+              }
+            } else {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // s disponible ; n et e indisponibles
+                h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
                 return;
               } else {
+                // n, e et s indisponibles
+                // cas jamais atteint
+                return;
+              }
+            }
+          }
+        }
+
+        if (h.getVitesseX() < 0 && (int) h.getVitesseY() == 0) {
+          if (n == HardCodedParameters.NB_PULSES) {
+            if (o == HardCodedParameters.NB_PULSES) {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // n , o et s disponibles
+                int dice = gen.nextInt(3);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 2:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
+              } else {
+                // n et o disponibles ; s indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              }
+            } else {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // n et s disponibles ; o indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
+              } else {
+                // n disponible ; s et o indisponibles
                 h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
                 return;
               }
-              //break;
-          }
-          //break;
-        default:
-          switch (e) {
-            case HardCodedParameters.NB_PULSES:
-              if (h.getVitesseX() == 0) {
-                h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
-                return;
+            }
+          } else {
+            if (o == HardCodedParameters.NB_PULSES) {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // o et s disponibles ; n indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
               } else {
-                h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                // o disponible ; n et s indisponibles
+                // cas jamais atteint
                 return;
               }
-              //break;
-            default:
-              if (h.getVitesseX() == 0) {
+            } else {
+              if (s == HardCodedParameters.NB_PULSES) {
+                // s disponible ; n et o indisponibles
+                h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                return;
+              } else {
+                // n, o et s indisponibles
+                // cas jamais atteint
+                return;
+              }
+            }
+          }
+        }
+
+        if (h.getVitesseY() < 0 && (int) h.getVitesseX() == 0) {
+          if (e == HardCodedParameters.NB_PULSES) {
+            if (n == HardCodedParameters.NB_PULSES) {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // e , n et o disponibles
+                int dice = gen.nextInt(3);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 2:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              } else {
+                // e et n disponibles ; o indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
+              }
+            } else {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // e et o disponibles ; n indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              } else {
+                // e disponible ; o et n indisponibles
+                h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              }
+            }
+          } else {
+            if (n == HardCodedParameters.NB_PULSES) {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // n et o disponibles ; e indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              } else {
+                // n disponible ; e et o indisponibles
+                // cas jamais atteint
+                return;
+              }
+            } else {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // o disponible ; e et n indisponibles
                 h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
                 return;
               } else {
-                h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                // e, n et o indisponibles
+                // cas jamais atteint
                 return;
               }
-              //break;
+            }
           }
-          //break;
+        }
+
+        if (h.getVitesseY() > 0 && (int) h.getVitesseX() == 0) {
+          if (e == HardCodedParameters.NB_PULSES) {
+            if (s == HardCodedParameters.NB_PULSES) {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // e , s et o disponibles
+                int dice = gen.nextInt(3);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 2:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              } else {
+                // e et s disponibles ; o indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                }
+              }
+            } else {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // e et o disponibles ; s indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                  case 1:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              } else {
+                // e disponible ; o et s indisponibles
+                h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              }
+            }
+          } else {
+            if (s == HardCodedParameters.NB_PULSES) {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // s et o disponibles ; e indisponible
+                int dice = gen.nextInt(2);
+                switch (dice) {
+                  case 0:
+                    h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
+                    return;
+                  case 1:
+                    h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                    return;
+                }
+              } else {
+                // s disponible ; e et o indisponibles
+                // cas jamais atteint
+                return;
+              }
+            } else {
+              if (o == HardCodedParameters.NB_PULSES) {
+                // o disponible ; e et s indisponibles
+                h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
+                return;
+              } else {
+                // e, s et o indisponibles
+                // cas jamais atteint
+                return;
+              }
+            }
+          }
+        }
       }
-    }
-    // si dans un virage en T (hostile dans le grand trait du T)
-    if (h.getVitesseY() == 0 && h.getVitesseX() > 0 && e < HardCodedParameters.NB_PULSES && o == HardCodedParameters.NB_PULSES && n == HardCodedParameters.NB_PULSES && s == HardCodedParameters.NB_PULSES) {
-      h.setVitesse(0, HardCodedParameters.VITESSE_MAX_HOSTILE);
-      return;
-    }
-    if (h.getVitesseY() == 0 && h.getVitesseX() < 0 && o < HardCodedParameters.NB_PULSES && e == HardCodedParameters.NB_PULSES && n == HardCodedParameters.NB_PULSES && s == HardCodedParameters.NB_PULSES) {
-      h.setVitesse(0, -HardCodedParameters.VITESSE_MAX_HOSTILE);
-      return;
-    }
-    if (h.getVitesseY() > 0 && h.getVitesseX() == 0 && o == HardCodedParameters.NB_PULSES && e == HardCodedParameters.NB_PULSES && n == HardCodedParameters.NB_PULSES && s < HardCodedParameters.NB_PULSES) {
-      h.setVitesse(HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
-      return;
-    }
-    if (h.getVitesseY() < 0 && h.getVitesseX() == 0 && o == HardCodedParameters.NB_PULSES && e == HardCodedParameters.NB_PULSES && n < HardCodedParameters.NB_PULSES && s == HardCodedParameters.NB_PULSES) {
-      h.setVitesse(-HardCodedParameters.VITESSE_MAX_HOSTILE, 0);
-      return;
-    }
   }
+
+
 
   public void iaPrimitive(HostileService h) {
 
@@ -334,7 +608,6 @@ public class Engine implements EngineService, RequireDataService{
     }
 
   }
-
 
  public void iaAvancee2(HostileService h) {
     boolean n = pulse_nord(h) < 2;
