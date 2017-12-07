@@ -4,63 +4,65 @@ import fr.insta.cl.pacinc.pacdrive.specifications.MovableService;
 import fr.insta.cl.pacinc.pacdrive.specifications.PositionnableService;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
-public abstract class Positionnable implements PositionnableService{
+public abstract class Positionnable implements PositionnableService {
 
-	public Position position = new Position(0,0) ;
-	public double hauteur, largeur;
+    public Position position = new Position(0, 0);
+    public double hauteur, largeur;
 
-	public Positionnable(Position p){
-		this.position = p;
-		this.initSize();
-	}
+    public Positionnable(Position p) {
+        this.position = p;
+        this.initSize();
+    }
 
 
-	//getters and setters
-	public double getPositionX() {
-		return position.x;
-	}
-	public void setPositionX(double x) {
-		this.position.x = x;
-	}
-	public double getPositionY() {
-		return position.y;
-	}
-	public void setPositionY(double y) {
-		this.position.y = y;
-	}
+    //getters and setters
+    public double getPositionX() {
+        return position.x;
+    }
 
-	public double getHauteur() {
-		return hauteur;
-	}
+    public void setPositionX(double x) {
+        this.position.x = x;
+    }
 
-	public void setHauteur(int hauteur) {
-		this.hauteur = hauteur;
-	}
+    public double getPositionY() {
+        return position.y;
+    }
 
-	public double getLargeur() {
-		return largeur;
-	}
+    public void setPositionY(double y) {
+        this.position.y = y;
+    }
 
-	public void setLargeur(int largeur) {
-		this.largeur = largeur;
-	}
+    public double getHauteur() {
+        return hauteur;
+    }
 
-	public Position getPosition() {
-		return position;
-	}
+    public void setHauteur(int hauteur) {
+        this.hauteur = hauteur;
+    }
 
-	public void setPosition(Position position) {
-		this.position = position;
-	}
+    public double getLargeur() {
+        return largeur;
+    }
 
-	//combined setter
-	public void setPosition(double x, double y) {
-		this.position.x = x;
-		this.position.y = y;
-	}
+    public void setLargeur(int largeur) {
+        this.largeur = largeur;
+    }
 
-	protected abstract void initSize();
+    public Position getPosition() {
+        return position;
+    }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    //combined setter
+    public void setPosition(double x, double y) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
+    protected abstract void initSize();
 
 
 }

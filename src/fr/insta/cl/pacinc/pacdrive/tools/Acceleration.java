@@ -7,9 +7,10 @@
 package fr.insta.cl.pacinc.pacdrive.tools;
 
 public class Acceleration {
-  public double x,y;
-  public Acceleration(double x, double y){
-    this.x=x;
-    this.y=y;
-  }
+    public double x, y;
+
+    public Acceleration(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

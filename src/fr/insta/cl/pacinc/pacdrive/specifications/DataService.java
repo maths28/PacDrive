@@ -6,6 +6,6 @@
  * ******************************************************/
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
-public interface DataService extends ReadService, WriteService{
-  public void init();
+public interface DataService extends ReadService, WriteService {
+    public void init();
 }

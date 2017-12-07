@@ -13,19 +13,19 @@ import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public interface AlgorithmService{
-//  public void init();
-  public void iaAvancee1(HostileService h) ;
+public interface AlgorithmService {
+    //  public void init();
+    public void iaAvancee1(HostileService h);
 
-  public void iaPrimitive(HostileService h) ;
+    public void iaPrimitive(HostileService h);
 
-  public void iaAvancee2(HostileService h) ;
+    public void iaAvancee2(HostileService h);
 
-  public int pulse_nord(HostileService h) ;
+    public int pulse_nord(HostileService h);
 
-  public int pulse_sud(HostileService h) ;
+    public int pulse_sud(HostileService h);
 
-  public int pulse_est(HostileService h) ;
+    public int pulse_est(HostileService h);
 
-  public int pulse_ouest(HostileService h) ;
+    public int pulse_ouest(HostileService h);
 }

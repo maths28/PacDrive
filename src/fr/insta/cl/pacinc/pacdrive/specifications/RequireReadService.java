@@ -7,5 +7,5 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
 public interface RequireReadService {
-  public void bindReadService(ReadService service);
+    public void bindReadService(ReadService service);
 }

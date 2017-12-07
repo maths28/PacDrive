@@ -11,117 +11,119 @@ import javafx.scene.shape.Rectangle;
 
 public class HardCodedParameters {
 
-  //---HARD-CODED-PARAMETERS---//
-  public static String defaultParamFileName = "in.parameters";
-  public static final int defaultWidth = 800, defaultHeight = 600,
-                          heroesStartX = 15*HardCodedParameters.BATIMENT_SIZE_X + HardCodedParameters.BATIMENT_SIZE_X/2, heroesStartY = 1*HardCodedParameters.BATIMENT_SIZE_X + HardCodedParameters.BATIMENT_SIZE_X/2, heroesWidth=60, heroesHeight=90, heroesStep = 5,
-                          phantomWidth = 30, phantomHeight = 30, phantomStep = 10;
-  public static final int enginePaceMillis = 100,
-                          spriteSlowDownRate = 7;
-  public static final double friction = 0.1;
-  public static final double resolutionShrinkFactor = 0.95,
-                             userBarShrinkFactor = 0.25,
-                             menuBarShrinkFactor = 0.5,
-                             logBarShrinkFactor = 0.15,
-                             logBarCharacterShrinkFactor = 0.1175,
-                             logBarCharacterShrinkControlFactor = 0.01275,
-                             menuBarCharacterShrinkFactor = 0.175;
-  public static final int displayZoneXStep = 5,
-                          displayZoneYStep = 5,
-                          displayZoneXZoomStep = 5,
-                          displayZoneYZoomStep = 5;
-  public static final double displayZoneAlphaZoomStep = 0.98;
+    //---HARD-CODED-PARAMETERS---//
+    public static String defaultParamFileName = "in.parameters";
+    public static final int defaultWidth = 800, defaultHeight = 600,
+            heroesStartX = 15 * HardCodedParameters.BATIMENT_SIZE_X + HardCodedParameters.BATIMENT_SIZE_X / 2, heroesStartY = 1 * HardCodedParameters.BATIMENT_SIZE_X + HardCodedParameters.BATIMENT_SIZE_X / 2, heroesWidth = 60, heroesHeight = 90, heroesStep = 5,
+            phantomWidth = 30, phantomHeight = 30, phantomStep = 10;
+    public static final int enginePaceMillis = 100,
+            spriteSlowDownRate = 7;
+    public static final double friction = 0.1;
+    public static final double resolutionShrinkFactor = 0.95,
+            userBarShrinkFactor = 0.25,
+            menuBarShrinkFactor = 0.5,
+            logBarShrinkFactor = 0.15,
+            logBarCharacterShrinkFactor = 0.1175,
+            logBarCharacterShrinkControlFactor = 0.01275,
+            menuBarCharacterShrinkFactor = 0.175;
+    public static final int displayZoneXStep = 5,
+            displayZoneYStep = 5,
+            displayZoneXZoomStep = 5,
+            displayZoneYZoomStep = 5;
+    public static final double displayZoneAlphaZoomStep = 0.98;
 
-  public static final int LOG_MESSAGES_MAX = 13;
+    public static final int LOG_MESSAGES_MAX = 13;
 
-  //---MISCELLANOUS---//
-  public static final Object loadingLock = new Object();
-  public static final String greetingsZoneId = String.valueOf(0xED1C7E),
-                             simulatorZoneId = String.valueOf(0x51E77E);
-  
-  public static <T> T instantiate(final String className, final Class<T> type){
-    try{
-      return type.cast(Class.forName(className).newInstance());
-    } catch(final InstantiationException e){
-      throw new IllegalStateException(e);
-    } catch(final IllegalAccessException e){
-      throw new IllegalStateException(e);
-    } catch(final ClassNotFoundException e){
-      throw new IllegalStateException(e);
+    //---MISCELLANOUS---//
+    public static final Object loadingLock = new Object();
+    public static final String greetingsZoneId = String.valueOf(0xED1C7E),
+            simulatorZoneId = String.valueOf(0x51E77E);
+
+    public static <T> T instantiate(final String className, final Class<T> type) {
+        try {
+            return type.cast(Class.forName(className).newInstance());
+        } catch (final InstantiationException e) {
+            throw new IllegalStateException(e);
+        } catch (final IllegalAccessException e) {
+            throw new IllegalStateException(e);
+        } catch (final ClassNotFoundException e) {
+            throw new IllegalStateException(e);
+        }
     }
-  }
 
-  //Positionnables sizes
+    //Positionnables sizes
 
-  //hero
-  public static final int HERO_SIZE_X = 20;
-  public static final int HERO_SIZE_Y = 10;
+    //hero
+    public static final int HERO_SIZE_X = 20;
+    public static final int HERO_SIZE_Y = 10;
 
-  //hostile
-  public static final int HOSTILE_SIZE_X = 20;
-  public static final int HOSTILE_SIZE_Y = 10;
+    //hostile
+    public static final int HOSTILE_SIZE_X = 20;
+    public static final int HOSTILE_SIZE_Y = 10;
 
-  //batiment
-  public static final int BATIMENT_SIZE_X = 30;
-  public static final int BATIMENT_SIZE_Y = 30;
+    //batiment
+    public static final int BATIMENT_SIZE_X = 30;
+    public static final int BATIMENT_SIZE_Y = 30;
 
-  //mine
-  public static final int MINE_SIZE_X = 20;
-  public static final int MINE_SIZE_Y = 20;
+    //mine
+    public static final int MINE_SIZE_X = 20;
+    public static final int MINE_SIZE_Y = 20;
 
-  //kit
-  public static final int KIT_SIZE_X = 20;
-  public static final int KIT_SIZE_Y = 20;
+    //kit
+    public static final int KIT_SIZE_X = 20;
+    public static final int KIT_SIZE_Y = 20;
 
-  //piece
-  public static final int PIECE_SIZE_X = 20;
-  public static final int PIECE_SIZE_Y = 20;
+    //piece
+    public static final int PIECE_SIZE_X = 20;
+    public static final int PIECE_SIZE_Y = 20;
 
-  //Limite des zones
+    //Limite des zones
 
-  public static final double OFFSET_X = .01*defaultHeight; ;
-  public static final double OFFSET_Y = .01*defaultHeight; ;
+    public static final double OFFSET_X = .01 * defaultHeight;
+    ;
+    public static final double OFFSET_Y = .01 * defaultHeight;
+    ;
 
-  public static final double AREA_GAME_X_START = OFFSET_X;
-  public static final double AREA_GAME_Y_START = OFFSET_Y;
-  public static final double AREA_GAME_X_END = OFFSET_X + 0.68*defaultWidth;
-  public static final double AREA_GAME_Y_END = OFFSET_Y + 0.8*defaultHeight;
+    public static final double AREA_GAME_X_START = OFFSET_X;
+    public static final double AREA_GAME_Y_START = OFFSET_Y;
+    public static final double AREA_GAME_X_END = OFFSET_X + 0.68 * defaultWidth;
+    public static final double AREA_GAME_Y_END = OFFSET_Y + 0.8 * defaultHeight;
 
-  //IA déplacement hostiles
+    //IA déplacement hostiles
 
-  public static final int NB_PULSES = 6;
-  public static final double PULSE_STEP = 2;
-  public static final double VITESSE_MAX_HOSTILE = 5;
-  public static final int TIMER_HOSTILE_CHANGEMENT_DIRECTION = 4;
-  public static final int TIMER_HOSTILE_DETECTION_VIRAGE = 1;
+    public static final int NB_PULSES = 6;
+    public static final double PULSE_STEP = 2;
+    public static final double VITESSE_MAX_HOSTILE = 5;
+    public static final int TIMER_HOSTILE_CHANGEMENT_DIRECTION = 4;
+    public static final int TIMER_HOSTILE_DETECTION_VIRAGE = 1;
 
-  //Stats
-  public static final double STATS_X_START = OFFSET_X;
-  public static final double STATS_Y_START = .825*defaultHeight;
-  public static final double STATS_X_END = STATS_X_START + 0.99*defaultWidth;
-  public static final double STATS_Y_END = STATS_Y_START + 0.16*defaultHeight;
+    //Stats
+    public static final double STATS_X_START = OFFSET_X;
+    public static final double STATS_Y_START = .825 * defaultHeight;
+    public static final double STATS_X_END = STATS_X_START + 0.99 * defaultWidth;
+    public static final double STATS_Y_END = STATS_Y_START + 0.16 * defaultHeight;
 
-  public static final Double SIZE_TEXT_STATS = 30.0;
+    public static final Double SIZE_TEXT_STATS = 30.0;
 
 
-  //Console
-  public static final double CONSOLE_X_START = .93*defaultHeight;
-  public static final double CONSOLE_Y_START = OFFSET_Y;
-  public static final double CONSOLE_X_END = CONSOLE_X_START + 0.299*defaultWidth;
-  public static final double CONSOLE_Y_END = CONSOLE_Y_START + 0.80*defaultHeight;
+    //Console
+    public static final double CONSOLE_X_START = .93 * defaultHeight;
+    public static final double CONSOLE_Y_START = OFFSET_Y;
+    public static final double CONSOLE_X_END = CONSOLE_X_START + 0.299 * defaultWidth;
+    public static final double CONSOLE_Y_END = CONSOLE_Y_START + 0.80 * defaultHeight;
 
-  public static final Double SIZE_TITRE_CONSOLE = 40.0;
-  public static final Double SIZE_TEXT_CONSOLE = 18.0;
+    public static final Double SIZE_TITRE_CONSOLE = 40.0;
+    public static final Double SIZE_TEXT_CONSOLE = 18.0;
 
-  //Game Over
-  public static final double COEF_FONT_SIZE = .05;
-  public static final double COEF_GAME_OVER_FONT_SIZE = 0.20;
-  public static final int  GAME_OVER_TEXT_XPART = 8;
-  public static final int  GAME_OVER_TEXT_YPART = 2;
-  public static final int STAT_GAME_OVER_OFFSET_Y = 50;
-  public static final int STAT_GAME_OVER_OFFSET_Y_2 = 80;
+    //Game Over
+    public static final double COEF_FONT_SIZE = .05;
+    public static final double COEF_GAME_OVER_FONT_SIZE = 0.20;
+    public static final int GAME_OVER_TEXT_XPART = 8;
+    public static final int GAME_OVER_TEXT_YPART = 2;
+    public static final int STAT_GAME_OVER_OFFSET_Y = 50;
+    public static final int STAT_GAME_OVER_OFFSET_Y_2 = 80;
 
-  public static final int INIT_STARTING_HP = 2;
+    public static final int INIT_STARTING_HP = 2;
 
 
 }

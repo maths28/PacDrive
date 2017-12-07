@@ -7,9 +7,10 @@
 package fr.insta.cl.pacinc.pacdrive.tools;
 
 public class Vitesse {
-  public double x,y;
-  public Vitesse(double x, double y){
-    this.x=x;
-    this.y=y;
-  }
+    public double x, y;
+
+    public Vitesse(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

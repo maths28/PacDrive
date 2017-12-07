@@ -7,5 +7,5 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
 public interface RequireWriteService {
-  public void bindWriteService(WriteService service);
+    public void bindWriteService(WriteService service);
 }

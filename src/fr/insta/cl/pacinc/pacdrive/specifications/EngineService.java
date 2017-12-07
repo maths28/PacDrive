@@ -8,11 +8,16 @@ package fr.insta.cl.pacinc.pacdrive.specifications;
 
 import fr.insta.cl.pacinc.pacdrive.tools.User;
 
-public interface EngineService{
-  public void init();
-  public void start();
-  public void stop();
-  public void setHeroesCommand(User.COMMAND c);
-  public void releaseHeroesCommand(User.COMMAND c);
-  public boolean collisionBetweenPositionnables(PositionnableService object1, PositionnableService object2);
+public interface EngineService {
+    public void init();
+
+    public void start();
+
+    public void stop();
+
+    public void setHeroesCommand(User.COMMAND c);
+
+    public void releaseHeroesCommand(User.COMMAND c);
+
+    public boolean collisionBetweenPositionnables(PositionnableService object1, PositionnableService object2);
 }

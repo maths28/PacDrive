@@ -7,5 +7,5 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
 public interface RequireAlgorithmService {
-  public void bindAlgorithmService(AlgorithmService service);
+    public void bindAlgorithmService(AlgorithmService service);
 }

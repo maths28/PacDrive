@@ -15,35 +15,35 @@ import fr.insta.cl.pacinc.pacdrive.tools.Position;
 import fr.insta.cl.pacinc.pacdrive.tools.Sound;
 
 public interface ReadService {
-  public Position getHeroesPosition();
+    public Position getHeroesPosition();
 
-  public double getHeroesWidth();
+    public double getHeroesWidth();
 
-  public double getHeroesHeight();
+    public double getHeroesHeight();
 
-  public double getPhantomWidth();
+    public double getPhantomWidth();
 
-  public double getPhantomHeight();
+    public double getPhantomHeight();
 
-  public int getStepNumber();
+    public int getStepNumber();
 
-  public int getScore();
+    public int getScore();
 
-  public List<HostileService> getHostiles();
+    public List<HostileService> getHostiles();
 
-  public Sound.SOUND getSoundEffect();
+    public Sound.SOUND getSoundEffect();
 
-  public JoueurService getJoueur();
+    public JoueurService getJoueur();
 
-  public List<KitService> getKits();
+    public List<KitService> getKits();
 
-  public List<MineService> getMines();
+    public List<MineService> getMines();
 
-  public List<PieceService> getPieces();
+    public List<PieceService> getPieces();
 
-  public List<BatimentService> getBatiments();
+    public List<BatimentService> getBatiments();
 
-  public String[] getLog();
+    public String[] getLog();
 
-  public boolean gameIsOver();
+    public boolean gameIsOver();
 }

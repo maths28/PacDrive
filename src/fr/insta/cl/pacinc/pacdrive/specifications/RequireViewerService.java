@@ -7,5 +7,5 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
 public interface RequireViewerService {
-  public void bindViewerService(ViewerService service);
+    public void bindViewerService(ViewerService service);
 }

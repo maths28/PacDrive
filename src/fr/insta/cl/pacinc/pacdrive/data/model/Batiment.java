@@ -4,16 +4,17 @@ import fr.insta.cl.pacinc.pacdrive.specifications.BatimentService;
 import fr.insta.cl.pacinc.pacdrive.tools.HardCodedParameters;
 import fr.insta.cl.pacinc.pacdrive.tools.Position;
 
-public class Batiment extends Positionnable implements BatimentService{
+public class Batiment extends Positionnable implements BatimentService {
 
-    private int variation = 1 ;
+    private int variation = 1;
 
     public Batiment(Position p) {
         super(p);
     }
+
     public Batiment(Position p, int variation) {
         super(p);
-        this.variation = variation ;
+        this.variation = variation;
     }
 
     @Override
@@ -29,6 +30,6 @@ public class Batiment extends Positionnable implements BatimentService{
 
     @Override
     public void setVariation(int variation) {
-        this.variation = variation ;
+        this.variation = variation;
     }
 }

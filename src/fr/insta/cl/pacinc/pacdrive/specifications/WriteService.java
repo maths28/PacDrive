@@ -16,21 +16,27 @@ import fr.insta.cl.pacinc.pacdrive.tools.Sound;
 import fr.insta.cl.pacinc.pacdrive.tools.Vitesse;
 
 public interface WriteService {
-  public void setHeroesPosition(Position p);
-  public void setStepNumber(int n);
-  public void addHostile(Position p, Vitesse v, Acceleration a, String comportement);
-  public void setHostiles(List<HostileService> hostiles);
-  public void setSoundEffect(Sound.SOUND s);
-  public void addScore(int score);
-  public void setJoueur(JoueurService joueur);
+    public void setHeroesPosition(Position p);
 
-  public void setKits(List<KitService> kits);
+    public void setStepNumber(int n);
 
-  public void setMines(List<MineService> mines);
+    public void addHostile(Position p, Vitesse v, Acceleration a, String comportement);
 
-  public void setPieces(List<PieceService> pieces);
+    public void setHostiles(List<HostileService> hostiles);
 
-  public void setBatiments(List<BatimentService> batiments);
+    public void setSoundEffect(Sound.SOUND s);
 
-  public void setMessageForLog(String message);
+    public void addScore(int score);
+
+    public void setJoueur(JoueurService joueur);
+
+    public void setKits(List<KitService> kits);
+
+    public void setMines(List<MineService> mines);
+
+    public void setPieces(List<PieceService> pieces);
+
+    public void setBatiments(List<BatimentService> batiments);
+
+    public void setMessageForLog(String message);
 }

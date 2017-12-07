@@ -1,6 +1,6 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
-public interface JoueurService extends MovableService{
+public interface JoueurService extends MovableService {
 
     public int getHealth();
 

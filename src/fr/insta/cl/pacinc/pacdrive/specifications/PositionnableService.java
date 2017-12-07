@@ -6,16 +6,12 @@ public interface PositionnableService {
 
     //getters and setters
     public double getPositionX();
+
     public void setPositionX(double x);
+
     public double getPositionY();
+
     public void setPositionY(double y);
-
-    //combined setter
-    public void setPosition(double x, double y);
-
-    public Position getPosition();
-
-    public void setPosition(Position position);
 
     public double getHauteur();
 
@@ -24,4 +20,13 @@ public interface PositionnableService {
     public double getLargeur();
 
     public void setLargeur(int largeur);
+
+    //combined setter
+    public void setPosition(double x, double y);
+
+    public Position getPosition();
+
+    public void setPosition(Position position);
+
+
 }

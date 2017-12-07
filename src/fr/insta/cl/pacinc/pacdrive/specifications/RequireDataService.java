@@ -7,5 +7,5 @@
 package fr.insta.cl.pacinc.pacdrive.specifications;
 
 public interface RequireDataService {
-  public void bindDataService(DataService service);
+    public void bindDataService(DataService service);
 }
